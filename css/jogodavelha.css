@@ -1,0 +1,30 @@
+#table { 
+	display: none;
+	position: relative;
+	width: 21em;
+	aspect-ratio: 1 / 1;
+	margin: 2em auto;
+	overflow: hidden;
+	background-position: center;
+    background-size: contain;
+}
+
+ .box { 
+ 	width: calc(21em / 3 - 3em);
+ 	display:block;
+ 	aspect-ratio: 1 / 1;
+	background-position: center;
+    background-size: contain;
+    margin: 1.5em;
+    position: absolute;
+} 
+
+#box00,#box01 ,#box02 { top: 0; }
+#box10,#box11 ,#box12 { top: 7em; }
+#box20,#box21 ,#box22 { top: 14em; }
+
+#box00,#box10 ,#box20 { left: 0; }
+#box01,#box11 ,#box21 { left: 7em; }
+#box02,#box12 ,#box22 { left: 14em; }
+
+.hide { display: none!important; }
