@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Lucas Morgado | App</title>
+    <link rel="stylesheet" type="text/css" href="../css/app.css">
+
+    <!-- AniCollection.css library -->
+    <link rel="stylesheet" href="http://anijs.github.io/lib/anicollection/anicollection.css">
+
+    <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+</head>
+<body class="bg-dark">
+    <!-- INICIO MENU -->
+    <div class="menu-lateral borda-app bg-light d-flex justify-content-between flex-column">        
+        <header>    
+            <div class="logo-app d-flex justify-content-center py-3">
+                <img class="desktop" src="../images/logo.svg">        
+                <img class="mobile" src="../images/logo-min.svg">        
+            </div>
+            <ul class="list-group">
+              <li class="list-group-item active" aria-current="true">
+                <span class="icone-app bg-primary text-dark text-center">AI</span>
+                <span class="desktop">An active item</span>
+            </li>
+              <li class="list-group-item">
+                <span class="icone-app bg-primary text-dark text-center">SI</span>
+                <span class="desktop">A second item</span>
+            </li>
+              <li class="list-group-item">
+                <span class="icone-app bg-primary text-dark text-center">TI</span>
+                <span class="desktop">A third item</span>
+            </li>
+              <li class="list-group-item">
+                <span class="icone-app bg-primary text-dark text-center">FI</span>
+                <span class="desktop">A fourth item</span>
+            </li>
+              <li class="list-group-item">
+                <span class="icone-app bg-primary text-dark text-center">FI</span>
+                <span class="desktop">And a fifth one</span>
+            </li>
+            </ul>
+        </header>
+        <footer class="pb-3 d-flex justify-content-center flex-column">    
+           <p class="text-center text-primary m-0 p-2 desktop">Lucas Morgado</p>
+           <div class="d-flex justify-content-center social container">
+               <div class="icone-social bg-secondary rounded m-1">
+                   <a href="https://github.com/LucMorgado">
+                       <img src="../images/github-white.svg">
+                   </a>
+               </div>
+               <div class="icone-social bg-secondary rounded m-1">
+                   <a href="https://www.behance.net/lucasmorgado">
+                       <img src="../images/behance.svg">
+                   </a>
+               </div>
+               <div class="icone-social bg-secondary rounded m-1">
+                   <a href="mailto:LucMorgado@outlook.com">
+                       <img src="../images/mail.svg">
+                   </a>
+               </div>
+           </div>
+        </footer>
+    </div>
+    <!-- FIM DO MENU -->
+
+
+    <!-- PROGRAMA -->
+    <div class="d-flex justify-content-between app">
+        <div class="helper-center"></div>
+        <section class="px-3">
+            <h1 class="text-center text-white py-2">Programa 01</h1>
+            <div class="form d-flex justify-content-center flex-wrap">       
+                <div class="input">
+                    <input type="text" name="Nome" id="text1" placeholder=" ">
+                    <label class="label" for="text1"><span class="icone-form"></span>Nome</label>
+                </div>
+                <div class="input">
+                    <input type="number" name="Nome" id="number1" placeholder=" ">
+                    <label class="label" for="number1"><span class="icone-form"></span>Idade</label>
+                </div>
+                <div class="input">
+                    <select>
+                        <option>Seleceione</option>
+                        <option>Opçao 01</option>
+                        <option>Opçao 02</option>
+                        <option>Opçao 03</option>
+                    </select>
+                    <label class="label"><span class="icone-form"></span>Select</label>
+                </div>
+                <div class="input input-radio">
+                    <label class="label"><span class="icone-form"></span>Radio</label>
+                    <div class="radio">
+                        <input class="form-check-input"  id="radio1" type="radio" name="radio"><label class="ms-2 text-white" for="radio1">Opção 1</label>
+                    </div>
+                    <div class="radio">
+                        <input class="form-check-input"  id="radio2" type="radio" name="radio"><label class="ms-2 text-white" for="radio2">Opção 2</label>
+                    </div>
+                    <div class="radio">
+                        <input class="form-check-input" id="radio3" type="radio" name="radio"><label class="ms-2 text-white" for="radio3">Opção 3</labal>
+                    </div>
+                </div>
+                <div class="input input-check">
+                    <label class="label"><span class="icone-form"></span>check</label>
+                    <div class="check">
+                        <input class="form-check-input"  id="check1" type="checkbox" name="check"><label class="ms-2 text-white" for="check1">Opção 1</label>
+                    </div>
+                    <div class="check">
+                        <input class="form-check-input"  id="check2" type="checkbox" name="check"><label class="ms-2 text-white" for="check2">Opção 2</label>
+                    </div>
+                    <div class="check">
+                        <input class="form-check-input" id="check3" type="checkbox" name="check"><label class="ms-2 text-white" for="check3">Opção 3</labal>
+                    </div>
+                </div>
+                <div class="input input-check">
+                    <label class="label"><span class="icone-form"></span>Switch</label>
+                    <div class="check form-switch">
+                        <input class="form-check-input"  id="checksw1" type="checkbox" role="switch"  name="check"><label class="ms-2 text-white" for="checksw1">Opção 1</label>
+                    </div>
+                    <div class="check form-switch">
+                        <input class="form-check-input"  id="checksw2" type="checkbox" role="switch"  name="check"><label class="ms-2 text-white" for="checksw2">Opção 2</label>
+                    </div>
+                    <div class="check form-switch">
+                        <input class="form-check-input" id="checksw3" type="checkbox" role="switch"  name="check"><label class="ms-2 text-white" for="checksw3">Opção 3</labal>
+                    </div>
+                </div>
+                <div class="input input-file">
+                    <label class="label" for="file1"><span class="icone-form"></span>Arquivo</label>
+                    <input type="file" name="Nome" id="file1" placeholder=" ">
+                </div>
+                <div class="form-btn my-3 d-flex justify-content-center">
+                    <button class="btn m-2 btn-primary">Primary</button>
+                    <button class="btn m-2 btn-secondary">Secondary</button>
+                </div>
+            </div>
+            <div class="d-flex justify-content-center">
+                <table>
+                    <tr>                        
+                        <th>Id</th>
+                        <th>Nome</th>
+                        <th>Ações</th>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>Lucas</td>
+                        <td>
+                            <span class="icone-form bg-secondary"></span>
+                            <span class="icone-form bg-success"></span>
+                            <span class="icone-form bg-primary"></span>
+                        </td>
+                    </tr>
+                     <tr>
+                        <td>1</td>
+                        <td>Lucas</td>
+                        <td>
+                            <span class="icone-form bg-secondary"></span>
+                            <span class="icone-form bg-success"></span>
+                            <span class="icone-form bg-primary"></span>
+                        </td>
+                    </tr>
+                     <tr>
+                        <td>1</td>
+                        <td>Lucas</td>
+                        <td>
+                            <span class="icone-form bg-secondary"></span>
+                            <span class="icone-form bg-success"></span>
+                            <span class="icone-form bg-primary"></span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="alert d-flex justify-content-center">
+                <div class="position-relative">
+                    <h3>Alerta</h3>
+                    <p>Lorem ipsum dolor sit amet,r in reprehenderit in voluptate velit esse
+                    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                    proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                    <span class="close">X</span>
+                </div>
+            </div>
+
+        </section>
+    </div>
+<script type="text/javascript">
+
+    $(document).ready(function(){ 
+        redimensionarMenu();
+
+    });
+
+     $(window).resize(function(){ 
+         redimensionarMenu();
+    });
+
+function redimensionarMenu(){ 
+    let hW = $(window).height();
+    let wW = $(window).width();
+    if(hW < 600) { 
+        hW = 600;
+    }
+$('.menu-lateral').height(hW);
+$('.helper-center').css("margin-left", $('.menu-lateral').width() + "px");
+}
+
+</script>
+<script type="text/javascript" src="../js/anijs/dist/anijs-min.js"></script>
+</body>
+
+</html>

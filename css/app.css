@@ -14,11 +14,19 @@
   --bs-light-rgb:  		105,111,117;
   --logo:  url('../images/logo.svg');
   --borda:  url('../images/border.png');
+  --bs-gradiente:  linear-gradient(45deg, var(--bs-dark), var(--bs-light));
 }
 
 ul,li,ol { list-style: none; }
+
+a { color: unset;text-decoration: none; }
+a: hover; { color: unset;text-decoration: none; }
+
+.desktop { display: initial; }
+.mobile { display: none; }
+
 .bg-gradi { 
-	background-image: linear-gradient(45deg, var(--bs-dark), var(--bs-light));
+	background-image: var(--bs-gradiente);
  }
 
 .borda { border-bottom: 5px solid var(--bs-secondary); }
@@ -34,7 +42,7 @@ display: inline-flex;
     align-content: center;
     justify-content: center;
     align-items: center;
-width: 300px;
+    width: 300px;
     height: 200px;
     position: relative;
     background: white;
@@ -68,9 +76,281 @@ width: 300px;
     border: 1px solid var(--bs-secondary); 
  }
 .project img { width: 100%; }
-.icone-social{ 
+
+.icone-social, .icone-app{ 
     aspect-ratio: 1 / 1;
     width: 2em;
     height: 2em;
     padding: 0.2em;
+    display: inline-block;
  }
+
+/** APP **/
+
+.menu-lateral { position: fixed;left: 0;top: 0; }
+
+.app section { width: 100% }
+
+.borda-app { border-right: 5px solid var(--bs-secondary); }
+
+.logo-app img{ width: 70%; }
+
+.list-group-item { background-color: transparent; color: white;border: none; }
+
+.list-group-item:hover { background-color: rgba(0, 0, 0, 0.3); }
+
+.list-group-item.active { background-image: var(--bs-gradiente); }
+
+.social { flex-direction: row; }
+
+.icone-app{
+   border-radius: 0.2em;
+   margin-right: 0.5em; 
+    vertical-align: middle;}
+
+.icone-form{ 
+    aspect-ratio: 1 / 1;
+    width: 1.4em;
+    height: 1.4em;
+    padding: 0.2em;
+    vertical-align: middle;
+    display: inline-block;
+    background-color: var(--bs-primary);
+    border-radius: 0.25em;
+ }
+ .icone-upload{ 
+    position: absolute;
+    right: 1em;
+    top: 1.5em;
+  }
+
+
+
+input[type="number"] {
+  -webkit-appearance: textfield;
+     -moz-appearance: textfield;
+          appearance: textfield;
+}
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none;
+}
+
+select,input { 
+
+-webkit-appearance: none;
+    -ms-appearance: none;
+    -moz-appearance: none;
+    appearance: none; }
+
+input[type="number"]::after{ 
+    content: '<';
+    width: 2em;    
+    height: 2em;
+ }
+
+input[type="file"]{ 
+    opacity: 0;visibility: hidden;
+     }
+
+.input { 
+    position: relative;
+    height: 4em;
+    width: 20em;
+    min-width: 30%;
+    margin: 1em;
+ }
+
+ .input input[type="number"], .input input[type="text"], .input select { 
+
+padding: 1.2em 2em 0 2em;
+width: 100%;
+height: 100%;
+border-radius: 0.7em;
+background-color: var(--bs-dark);
+border: 1px solid var(--bs-primary);
+outline: none;
+color: var(--bs-white);
+font-size: 1.3rem;
+
+  }
+
+.input-radio ,.input-check, .input-file{ 
+border-radius: 0.7em;
+background-color: var(--bs-dark);
+border: 1px solid var(--bs-primary);
+outline: none;
+padding: 4em 2em 1em 2em;
+height: auto;
+
+ }
+.input-file{ 
+    padding-top: 1em;
+ }
+
+ .form-btn{ 
+    width: 100%;
+  }
+
+
+.input .label { 
+    position: absolute;
+    top: 1em;
+    transition: 0.5s;
+    line-height: 2em;
+    left: 0.5em;
+    color: var(--bs-primary);
+}
+
+.input input:focus ~  .label,
+.input input:active ~ .label,
+.input input:not(:placeholder-shown)~ .label,
+.input select ~ .label
+ { 
+    left: 0;
+    top: 0;
+    transform: scale(0.7);
+ }
+
+.form-check-input:checked{ 
+
+background-color: var(--bs-primary);
+border-color: var(--bs-primary); }
+
+.input .label span.icone-form { 
+    margin: 0 0.5em;
+ }
+
+.btn { 
+line-height: 2em;
+    padding: 0rem 3rem;
+    border-radius: 1.5em;
+    font-size: 1.25rem;
+ }
+
+ .btn-primary { 
+    color: var(--bs-dark);
+    background-color: var(--bs-primary);
+    border-color: var(--bs-primary);
+
+  }
+
+.btn-primary:hover,
+.btn-primary:active,
+.btn-primary:focus
+ { 
+    color: var(--bs-dark);
+    background-color: var(--bs-primary);
+    border-color: var(--bs-primary);
+    opacity: 0.8;
+    box-shadow: unset;
+
+  }
+   .btn-secondary { 
+    color: var(--bs-primary);
+    background-color: var(--bs-gradiente);
+    border-color: var(--bs-primary);
+
+
+  }
+
+.btn-secondary:hover,
+.btn-secondary:active,
+.btn-secondary:focus
+ { 
+       color: var(--bs-primary);
+    background-color: var(--bs-gradiente);
+    border-color: var(--bs-primary);
+     opacity: 0.8;
+     box-shadow: none;
+
+  }
+
+  table { 
+
+/*background-color: rgba(0, 0, 0, 0.3);*/
+color: #fff;
+margin: 2em;
+min-width: 70%;
+   }
+
+
+   table tr:nth-child(even){ 
+        background-color: rgba(0, 0, 0, 0.3);
+    }
+
+   table tr:nth-child(odd){ 
+        background-color: rgba(0, 0, 0, 0.1);
+    }
+   table tr:first-child{ 
+    background-color: unset ;
+    }
+   table th { 
+    color: #fff;
+    font-size: 1.5rem;
+    padding: 0.5em 3em;
+    border-bottom: 2px solid var(--bs-primary);
+    text-align: center;
+    }
+
+    table td { 
+
+    color: #fff;
+    padding: 0.5em 0;
+    text-align: center; }
+
+.alert div{ 
+background-color: #fff;
+padding: 1em;
+border-radius: 0.5em;
+width: 20em;}
+.alert h3, .alert p { text-align: center; }
+.alert h3 { 
+    color: var(--bs-secondary);
+    border-bottom: 2px solid var(--bs-secondary);
+ }
+
+ .alert .close { 
+    width: 2em;
+    height: 2em;
+    aspect-ratio: 1 / 1;
+    font-size: 1rem;
+    display: block;
+    padding: 0.5em;
+    border-radius: 1.5em;
+    background-color: var(--bs-secondary);
+    line-height: 1rem;
+    text-align: center;
+    vertical-align: middle;
+    color: #fff;
+    font-weight: bold;
+    position: absolute;
+    right: -1em;
+    top: -1em;
+  }
+
+footer p { width: 100%;}
+
+
+
+@media (max-width: 992px) { 
+
+.skill { width: calc(20% - 1rem);}
+
+/** APP **/
+
+.desktop { display: none; }
+.mobile { display: initial; }
+
+.logo-app { padding: 10%; }
+.logo-app img{ width: 100%; }
+
+.icone-app{ margin-right: 0;}
+
+.social { flex-direction: column;}
+
+.input { width: 100%;}
+
+  table { min-width: 100%;}
+}
+

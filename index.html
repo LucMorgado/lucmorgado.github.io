@@ -5,40 +5,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Lucas Morgado</title>
     <link rel="stylesheet" type="text/css" href="css/app.css">
+
+     <!-- AniCollection.css library -->
+    <link rel="stylesheet" href="http://anijs.github.io/lib/anicollection/anicollection.css">
 </head>
 <body class="bg-dark">
     <header class="bg-gradi borda">    
-        <div class="logo d-flex justify-content-center py-3">
+        <div class="logo d-flex justify-content-center py-3" data-anijs="if: mouseover, do: pulse animated">
             <img src="images/logo.svg">        
         </div>
     </header>
 
-    <section class="skill-dev container">
+    <section class="skill-dev container" data-anijs="if: mouseover, on: figure, do: tada animated, to: target">
         <h2 class="text-center text-white fw-normal mt-5 fs-2">Developer Skills</h2>
 
-        <div class="skill-list d-flex justify-content-center flex-wrap">
+        <div class="skill-list d-flex justify-content-center flex-wrap" >
             <div class="m-3 bg-clean skill">
-                <figure class="ic-html"></figure>
+                <figure class="ic-html proj-mega"></figure>
                 <h4 class="text-center text-white fw-light fs-4 py-2">HTML</h4>
             </div>
             <div class="m-3 bg-clean skill">
-                <figure class="ic-css"></figure>
+                <figure class="ic-css proj-mega"></figure>
                 <h4 class="text-center text-white fw-light fs-4 py-2">CSS</h4>
             </div>
             <div class="m-3 bg-clean skill">
-                <figure class="ic-js"></figure>
+                <figure class="ic-js proj-mega"></figure>
                 <h4 class="text-center text-white fw-light fs-4 py-2">JavaScript</h4>
             </div>
             <div class="m-3 bg-clean skill">
-                <figure class="ic-bootstrap"></figure>
+                <figure class="ic-bootstrap proj-mega"></figure>
                 <h4 class="text-center text-white fw-light fs-4 py-2">Bootstrap</h4>
             </div>
             <div class="m-3 bg-clean skill">
-                <figure class="ic-git"></figure>
+                <figure class="ic-git proj-mega"></figure>
                 <h4 class="text-center text-white fw-light fs-4 py-2">Git</h4>
             </div>
             <div class="m-3 bg-clean skill">
-                <figure class="ic-github"></figure>
+                <figure class="ic-github proj-mega"></figure>
                 <h4 class="text-center text-white fw-light fs-4 py-2">Github</h4>
             </div>
             <div class="m-3 bg-clean skill">
@@ -46,23 +49,23 @@
                 <h4 class="text-center text-white fw-light fs-4 py-2">Java</h4>
             </div>
             <div class="m-3 bg-clean skill">
-                <figure class="ic-php"></figure>
+                <figure class="ic-php proj-mega"></figure>
                 <h4 class="text-center text-white fw-light fs-4 py-2">PHP</h4>
             </div>
             <div class="m-3 bg-clean skill">
-                <figure class="ic-laravel"></figure>
+                <figure class="ic-laravel proj-mega"></figure>
                 <h4 class="text-center text-white fw-light fs-4 py-2">Laravel</h4>
             </div>
             <div class="m-3 bg-clean skill">
-                <figure class="ic-composer"></figure>
+                <figure class="ic-composer proj-mega"></figure>
                 <h4 class="text-center text-white fw-light fs-4 py-2">Composer</h4>
             </div>
             <div class="m-3 bg-clean skill">
-                <figure class="ic-sql"></figure>
+                <figure class="ic-sql proj-mega"></figure>
                 <h4 class="text-center text-white fw-light fs-4 py-2">SQL</h4>
             </div>
             <div class="m-3 bg-clean skill">
-                <figure class="ic-npm"></figure>
+                <figure class="ic-npm proj-mega"></figure>
                 <h4 class="text-center text-white fw-light fs-4 py-2">NPM</h4>
             </div>
             <div class="m-3 bg-clean skill">
@@ -70,7 +73,7 @@
                 <h4 class="text-center text-white fw-light fs-4 py-2">Firebase</h4>
             </div>
             <div class="m-3 bg-clean skill">
-                <figure class="ic-oop"></figure>
+                <figure class="ic-oop proj-mega"></figure>
                 <h4 class="text-center text-white fw-light fs-4 py-2">OOP</h4>
             </div>
         </div>
@@ -81,11 +84,11 @@
 
         <div class="skill-list d-flex justify-content-center flex-wrap">
             <div class="m-3 bg-clean skill">
-                <figure class="ic-illustrator"></figure>
+                <figure class="ic-illustrator proj-mega"></figure>
                 <h4 class="text-center text-white fw-light fs-4 py-2">Illustrator</h4>
             </div>
              <div class="m-3 bg-clean skill">
-                <figure class="ic-photoshop"></figure>
+                <figure class="ic-photoshop proj-mega proj-snes"></figure>
                 <h4 class="text-center text-white fw-light fs-4 py-2">Photoshop</h4>
             </div>
              <div class="m-3 bg-clean skill">
@@ -93,21 +96,25 @@
                 <h4 class="text-center text-white fw-light fs-4 py-2">Corel Draw</h4>
             </div>
              <div class="m-3 bg-clean skill">
-                <figure class="ic-3dsmax"></figure>
+                <figure class="ic-3dsmax proj-snes" ></figure>
                 <h4 class="text-center text-white fw-light fs-4 py-2">3dsmax</h4>
             </div>
         </div>
     </section>
 
       <section class="projects container">
-        <h2 class="text-center text-white fw-normal mt-5 fs-2">Project</h2>
+        <h2 class="text-center text-white fw-normal mt-5 fs-2">Projects</h2>
 
         <div class="d-flex justify-content-center flex-wrap">
-            <div class="project">
-                <img src="images/mega.svg">
+            <div class="project"  data-anijs="if: mouseover, do: tada animated, to: .proj-mega">
+                <a href="https://github.com/LucMorgado/MegaPharma" target="_blank">
+                    <img src="images/mega.svg">
+                </a>
             </div>
-            <div class="project">
-                <img src="images/projects/snes-001.png">
+            <div class="project"  data-anijs="if: mouseover, do: tada animated, to: .proj-snes">
+                <a href="https://www.behance.net/gallery/29324657/Joystick-Super-Nintedo" target="_blank">
+                    <img src="images/projects/snes-001.png">
+                </a>
             </div>
         </div>
     </section>
@@ -132,6 +139,10 @@
            </div>
        </div>
     </footer>
+
+<script type="text/javascript" src="js/anijs/dist/anijs-min.js"></script>
+
 </body>
+
 
 </html>
