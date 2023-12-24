@@ -139,12 +139,10 @@ print
     		switch (filtro[0]) {
     			case "v41":
     				let objPer = {
-    					"codigo" : 		linha[0],
-    					"descricao" : 	linha[1],
-    					"localizacao" : linha[2],
-    					"pedida" : 		linha[3],
-    					"cubagem" : 	linha[4],
-    					"abast" : 		linha[5],
+    					"codigo" : 		linha[11],
+    					"descricao" : 	linha[12],
+    					"localizacao" : linha[13],
+    					"pedida" : 		linha[15],
     				}
     				perfumaria.push(objPer);
     				perfumaria.sort(function(a,b){
@@ -153,12 +151,10 @@ print
     				break;
     			case "v43":
     				let objMed = {
-    					"codigo" : 		linha[0],
-    					"descricao" : 	linha[1],
-    					"localizacao" : linha[2],
-    					"pedida" : 		linha[3],
-    					"cubagem" : 	linha[4],
-    					"abast" : 		linha[5],
+    					"codigo" : 		linha[11],
+    					"descricao" : 	linha[12],
+    					"localizacao" : linha[13],
+    					"pedida" : 		linha[15],
     				}
     				medicamentos.push(objMed);
     				medicamentos.sort(function(a,b){
@@ -170,12 +166,10 @@ print
     				var local = filtro[0][0] + filtro[0][1];
     				if(local == "vw"){ 
     					let objDermo = {
-    					"codigo" : 		linha[0],
-    					"descricao" : 	linha[1],
-    					"localizacao" : linha[2],
-    					"pedida" : 		linha[3],
-    					"cubagem" : 	linha[4],
-    					"abast" : 		linha[5],
+    					"codigo" : 		linha[11],
+    					"descricao" : 	linha[12],
+    					"localizacao" : linha[13],
+    					"pedida" : 		linha[15],
     				}
     				dermo.push(objDermo);
     				dermo.sort(function(a,b){
@@ -184,12 +178,10 @@ print
     				}else { 
     					//out += "--> outros\n";
     					let objOut = {
-    					"codigo" : 		linha[0],
-    					"descricao" : 	linha[1],
-    					"localizacao" : linha[2],
-    					"pedida" : 		linha[3],
-    					"cubagem" : 	linha[4],
-    					"abast" : 		linha[5],
+    					"codigo" : 		linha[11],
+    					"descricao" : 	linha[12],
+    					"localizacao" : linha[13],
+    					"pedida" : 		linha[15],
     				}
     				outros.push(objOut);
     				outros.sort(function(a,b){
