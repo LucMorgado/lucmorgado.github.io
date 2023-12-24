@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Top 30</title>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+	<style>
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 24
+}
+</style>
+	<style>
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+</style>
+	<style type="text/css">
+		body { background:#eee; font-family: 'Montserrat', sans-serif;}
+		.quebrar { page-break-before: always; }
+		table {width: 80%;
+    margin: 0 10%;
+    border-collapse: collapse;
+font-size: 10pt}
+.pop {
+		width: 500px;
+    height: 500px;
+    border-radius: 20px;
+    margin: 40px auto;
+    background: white;
+    box-shadow: 0 0 10px #ddd;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: center;
+    align-items: center;
+    justify-content: space-evenly;
+}
+td	{ padding-left:5px }
+    textarea {
+    width: 350px;
+    max-width: 350px;
+    max-height: 300px;
+    min-width: 350px;
+    margin: 30px auto;
+    height: 300px;
+    border: 0;
+    font-size: 4pt;
+    background: #Eee;
+    border-radius: 25px;
+    overflow: hidden;
+    min-height: 300px;
+    padding: 20px;}
+    .botao {
+    	width: 100px;
+    display: block;
+    margin: auto;
+    padding: 10px 20px;
+    background: linear-gradient(90deg, #2c5cf1, #1e3c9a);
+    border-radius: 25px;
+    text-align: center;
+    color: #eee;
+    cursor: pointer;
+    }
+    #print { 
+    opacity:0.2; }
+
+    .btPrint { 
+        position: fixed;
+    bottom: 30px;
+    right: 30px; }
+    .btPrint span {
+    	font-size: 3rem;
+    background: linear-gradient(90deg, #2c5cf1, #1e3c9a);
+    padding: 20px;
+    border-radius: 50px;
+    box-shadow: 0 0 10px #949494;
+    color: #eee;
+    cursor: pointer;
+    opacity: 0.2;
+    }
+    .modulo {
+    	background: white;
+    width: 100px;
+    padding: 8px 18px;
+    border-radius: 25px;
+    color: #1e3c9a;
+    }
+    .limpar {
+    	    padding: 1px;
+    width: 136px;
+    }
+
+@media print{ 
+	.esconder { display:none; }
+}
+	</style>
+</head>
+<body>
+	<div class="pop esconder">
+		
+	<textarea maxli id="dados" name="dados"></textarea>
+	<div style="display:flex;width: 100%;flex-direction: row;flex-wrap: nowrap;justify-content: space-evenly;">		
+		<div class="botao" onclick="gerarDados()">GERAR</div>
+		<div class="botao limpar" onclick="limparDados()"><div class="modulo">LIMPAR</div></div>
+	</div>
+	</div>
+
+<div class="btPrint esconder" onclick="imprimir()"><span id="print2" class="material-symbols-outlined">
+print
+</span></div>
+<script type="text/javascript">
+	let podeImprimir = false;
+	function gerarDados(){
+		const dadosGerais = document.getElementById('dados').value;
+		const saida = document.getElementById('saida');
+		var linhas = dadosGerais.split("\n");
+
+		if(dadosGerais == ""){ 
+			alert("Por favor, né?!");
+
+		}else{
+		var out = "";
+		//bloco filtrar localizacao
+		let medicamentos = [], perfumaria = [], dermo =[], outros = [];
+    	for (var i in linhas) {
+    		var linha = linhas[i].split("	");
+    		var localizador = linha[2];
+
+    		if(localizador == undefined){
+    			continue;
+    		}else {
+    		}
+
+    		//separar e organizar pelo mais pedido
+    		var filtro = localizador.split("-");
+    		switch (filtro[0]) {
+    			case "v41":
+    				let objPer = {
+    					"codigo" : 		linha[0],
+    					"descricao" : 	linha[1],
+    					"localizacao" : linha[2],
+    					"pedida" : 		linha[3],
+    					"cubagem" : 	linha[4],
+    					"abast" : 		linha[5],
+    				}
+    				perfumaria.push(objPer);
+    				perfumaria.sort(function(a,b){
+    					return b.pedida - a.pedida;
+    				});
+    				break;
+    			case "v43":
+    				let objMed = {
+    					"codigo" : 		linha[0],
+    					"descricao" : 	linha[1],
+    					"localizacao" : linha[2],
+    					"pedida" : 		linha[3],
+    					"cubagem" : 	linha[4],
+    					"abast" : 		linha[5],
+    				}
+    				medicamentos.push(objMed);
+    				medicamentos.sort(function(a,b){
+    					return b.pedida - a.pedida;
+    				});
+    				
+    				break;
+    			default:
+    				var local = filtro[0][0] + filtro[0][1];
+    				if(local == "vw"){ 
+    					let objDermo = {
+    					"codigo" : 		linha[0],
+    					"descricao" : 	linha[1],
+    					"localizacao" : linha[2],
+    					"pedida" : 		linha[3],
+    					"cubagem" : 	linha[4],
+    					"abast" : 		linha[5],
+    				}
+    				dermo.push(objDermo);
+    				dermo.sort(function(a,b){
+    					return b.pedida - a.pedida;
+    				});
+    				}else { 
+    					//out += "--> outros\n";
+    					let objOut = {
+    					"codigo" : 		linha[0],
+    					"descricao" : 	linha[1],
+    					"localizacao" : linha[2],
+    					"pedida" : 		linha[3],
+    					"cubagem" : 	linha[4],
+    					"abast" : 		linha[5],
+    				}
+    				outros.push(objOut);
+    				outros.sort(function(a,b){
+    					return b.pedida - a.pedida;
+    				});
+    				}
+    				break;
+    		}
+		}
+
+		//filtrar os 30 mais
+
+		perfumaria = filtrarTrinta(perfumaria);
+		medicamentos = filtrarTrinta(medicamentos);
+		dermo = filtrarTrinta(dermo);
+		outros = filtrarTrinta(outros);
+		
+		function filtrarTrinta(a){
+			if(a.length > 30){ 
+				a.splice(30, parseInt(a.length - 30));
+			}
+			return a;
+		}
+
+		//ordenar por endereco
+		perfumaria = ordemLocalizacao(perfumaria);
+		medicamentos = ordemLocalizacao(medicamentos);
+		dermo = ordemLocalizacao(dermo);
+		outros = ordemLocalizacao(outros);
+
+		function ordemLocalizacao(c){
+			 c.sort(function(a,b) {
+   			 return a.localizacao < b.localizacao ? -1 : a.localizacao > b.localizacao ? 1 : 0;
+			} );
+			return c;		 
+		}   		
+
+		//mostrar tabela na tela
+   		document.getElementById("tabMed").innerHTML = montarTabela(medicamentos, "MEDICAMENTOS");
+   		document.getElementById("tabPer").innerHTML = montarTabela(perfumaria, "PERFUMARIA");
+   		document.getElementById("tabDer").innerHTML = montarTabela(Dermo, "DERMO");
+   		document.getElementById("tabOut").innerHTML = montarTabela(outros, "OUTROS");
+
+   		//liberar botao de imprimir
+   		document.getElementById("print2").style = 'opacity:1';
+   		podeImprimir = true;
+   	}
+
+}
+
+function montarTabela(dado, titulo){
+   			var ret = '<tr><th colspan="6">' + titulo + '</th></tr><tr><th>Codigo</th><th>Descrição</th><th>Localização</th><th>Qtd Pedida</th><th>Cubagem</th><th>Abastecimento</th></tr>';
+   			for(var j = 1; j <= 30; j++){
+   				if(dado[j] != undefined){
+   					ret += "<tr>" + 
+   							"<td>" + dado[j]["codigo"] + "</td>" +
+   							"<td>" + dado[j]["descricao"] + "</td>" +
+   							"<td>" + dado[j]["localizacao"] + "</td>" +
+   							"<td>" + dado[j]["pedida"] + "</td>" +
+   							"<td>" + dado[j]["cubagem"] + "</td>" +
+   							"<td>" + dado[j]["abast"] + "</td>" +
+   							"</tr>";
+   				}else{ 
+   					ret += "<tr>" + 
+   						"<td>" + "-" + "</td>" +
+   						"<td>" + "-" + "</td>" +
+   						"<td>" + "-" + "</td>" +
+   						"<td>" + "-" + "</td>" +
+   						"<td>" + "-" + "</td>" +
+   						"<td>" + "-" + "</td>" +
+   						"</tr>";
+   				}
+
+   			}
+   			return ret;
+   		} 
+
+function imprimir(){
+
+	if(podeImprimir){
+		window.print();
+	}else{ 
+		alert("Preencha a lista");
+	}
+}
+
+function limparDados(){
+	document.getElementById('dados').value = "";
+}
+</script>
+
+<table border="1" id="tabMed" style="width:80%"></table>
+<p class="quebrar"></p>
+<table border="1" id="tabPer" style="width:80%"></table>
+<p class="quebrar"></p>
+<table border="1" id="tabDer" style="width:80%"></table>
+<p class="quebrar"></p>
+<table border="1" id="tabOut" style="width:80%"></table>
+
+
+</body>
+</html>
