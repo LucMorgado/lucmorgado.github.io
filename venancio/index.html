@@ -20,8 +20,8 @@
 	<style type="text/css">
 		body { background:#eee; font-family: 'Montserrat', sans-serif;}
 		.quebrar { page-break-before: always; }
-		table {width: 80%;
-    margin: 0 10%;
+		table {width: 100%;
+    margin: 0;
     border-collapse: collapse;
 font-size: 10pt}
 .pop {
@@ -118,16 +118,21 @@ print
 		const saida = document.getElementById('saida');
 		var linhas = dadosGerais.split("\n");
 
+		//remover primeira linha
+		linhas.shift();
+
+
+
 		if(dadosGerais == ""){ 
 			alert("Por favor, né?!");
 
 		}else{
 		var out = "";
 		//bloco filtrar localizacao
-		let medicamentos = [], perfumaria = [], dermo =[], outros = [];
+		let med = [], perf = [], dermo =[], alim = [], outros = [], med2 = [], perf2=[], dermo2=[],alim2=[];
     	for (var i in linhas) {
     		var linha = linhas[i].split("	");
-    		var localizador = linha[2];
+    		var localizador = linha[14];
 
     		if(localizador == undefined){
     			continue;
@@ -136,68 +141,111 @@ print
 
     		//separar e organizar pelo mais pedido
     		var filtro = localizador.split("-");
+
     		switch (filtro[0]) {
-    			case "v41":
+    			case "V41":
     				let objPer = {
-    					"codigo" : 		linha[11],
-    					"descricao" : 	linha[12],
-    					"localizacao" : linha[13],
-    					"pedida" : 		linha[15],
+    					"codigo" : 		linha[12],
+    					"descricao" : 	linha[13],
+    					"localizacao" : linha[14],
+    					"pedida" : 		linha[16],
     				}
-    				perfumaria.push(objPer);
-    				perfumaria.sort(function(a,b){
-    					return b.pedida - a.pedida;
-    				});
+    				if(parseInt(filtro[2]) > 100){
+    					perf2.push(objPer);
+	    				perf2.sort(function(a,b){
+	    					return b.pedida - a.pedida;
+	    				});
+    				}else{
+	    				perf.push(objPer);
+	    				perf.sort(function(a,b){
+	    					return b.pedida - a.pedida;
+	    				});
+    				}
+
     				break;
-    			case "v43":
+    			case "V43":
     				let objMed = {
-    					"codigo" : 		linha[11],
-    					"descricao" : 	linha[12],
-    					"localizacao" : linha[13],
-    					"pedida" : 		linha[15],
+    					"codigo" : 		linha[12],
+    					"descricao" : 	linha[13],
+    					"localizacao" : linha[14],
+    					"pedida" : 		linha[16],
     				}
-    				medicamentos.push(objMed);
-    				medicamentos.sort(function(a,b){
-    					return b.pedida - a.pedida;
-    				});
+    				if(parseInt(filtro[2]) > 100){
+    					med2.push(objMed);
+	    				med2.sort(function(a,b){
+	    					return b.pedida - a.pedida;
+	    				});
+    				}else{
+	    				med.push(objMed);
+	    				med.sort(function(a,b){
+	    					return b.pedida - a.pedida;
+	    				});
+    				}
     				
     				break;
     			default:
     				var local = filtro[0][0] + filtro[0][1];
-    				if(local == "vw"){ 
+    				if(local == "VW"){ 
     					let objDermo = {
-    					"codigo" : 		linha[11],
-    					"descricao" : 	linha[12],
-    					"localizacao" : linha[13],
-    					"pedida" : 		linha[15],
+    					"codigo" : 		linha[12],
+    					"descricao" : 	linha[13],
+    					"localizacao" : linha[14],
+    					"pedida" : 		linha[16],
     				}
-    				dermo.push(objDermo);
-    				dermo.sort(function(a,b){
-    					return b.pedida - a.pedida;
-    				});
-    				}else { 
-    					//out += "--> outros\n";
-    					let objOut = {
-    					"codigo" : 		linha[11],
-    					"descricao" : 	linha[12],
-    					"localizacao" : linha[13],
-    					"pedida" : 		linha[15],
+    				if(filtro[1] == "01"){ 
+    					dermo.push(objDermo);
+    					dermo.sort(function(a,b){
+    						return b.pedida - a.pedida;
+    					});
+    				}else{
+    					dermo2.push(objDermo);
+    					dermo2.sort(function(a,b){
+    						return b.pedida - a.pedida;
+    					});
     				}
-    				outros.push(objOut);
-    				outros.sort(function(a,b){
-    					return b.pedida - a.pedida;
-    				});
+
+    				}else if(local == "VY"){
+    					let objAlim = {
+    					"codigo" : 		linha[12],
+    					"descricao" : 	linha[13],
+    					"localizacao" : linha[14],
+    					"pedida" : 		linha[16]
+    				}
+    				if(filtro[1] == "01"){ 
+    					alim.push(objAlim);
+    					alim.sort(function(a,b){
+    						return b.pedida - a.pedida;});
+    				}else{
+    					alim2.push(objAlim);
+    					alim2.sort(function(a,b){
+    						return b.pedida - a.pedida;});
+    				}
+    				}else{ 
+	    						//out += "--> outros\n";
+	    						let objOut = {
+	    						"codigo" : 		linha[12],
+	    						"descricao" : 	linha[13],
+	    						"localizacao" : linha[14],
+	    						"pedida" : 		linha[16],
+	    					}
+	    					outros.push(objOut);
+	    					outros.sort(function(a,b){
+	    						return b.pedida - a.pedida;
+	    					});
     				}
     				break;
     		}
 		}
 
 		//filtrar os 30 mais
-
-		perfumaria = filtrarTrinta(perfumaria);
-		medicamentos = filtrarTrinta(medicamentos);
+		med = filtrarTrinta(med);
+		med2 = filtrarTrinta(med2);
+		perf = filtrarTrinta(perf);
+		perf2 = filtrarTrinta(perf2);
 		dermo = filtrarTrinta(dermo);
-		outros = filtrarTrinta(outros);
+		dermo2 = filtrarTrinta(dermo2);
+		alim = filtrarTrinta(alim);
+		alim2 = filtrarTrinta(alim2);
 		
 		function filtrarTrinta(a){
 			if(a.length > 30){ 
@@ -207,10 +255,14 @@ print
 		}
 
 		//ordenar por endereco
-		perfumaria = ordemLocalizacao(perfumaria);
-		medicamentos = ordemLocalizacao(medicamentos);
+		perf = ordemLocalizacao(perf);
+		perf2 = ordemLocalizacao(perf2);
+		med = ordemLocalizacao(med);
+		med2 = ordemLocalizacao(med2);
 		dermo = ordemLocalizacao(dermo);
-		outros = ordemLocalizacao(outros);
+		dermo2 = ordemLocalizacao(dermo2);
+		alim = ordemLocalizacao(alim);
+		alim2 = ordemLocalizacao(alim2);
 
 		function ordemLocalizacao(c){
 			 c.sort(function(a,b) {
@@ -220,10 +272,15 @@ print
 		}   		
 
 		//mostrar tabela na tela
-   		document.getElementById("tabMed").innerHTML = montarTabela(medicamentos, "MEDICAMENTOS");
-   		document.getElementById("tabPer").innerHTML = montarTabela(perfumaria, "PERFUMARIA");
+   		document.getElementById("tabMed").innerHTML = montarTabela(med, "MEDICAMENTOS");
+   		document.getElementById("tabMed2").innerHTML = montarTabela(med2, "MEDICAMENTOS");
+   		document.getElementById("tabPer").innerHTML = montarTabela(perf, "PERFUMARIA");
+   		document.getElementById("tabPer2").innerHTML = montarTabela(perf2, "PERFUMARIA");
    		document.getElementById("tabDer").innerHTML = montarTabela(dermo, "DERMO");
-   		document.getElementById("tabOut").innerHTML = montarTabela(outros, "OUTROS");
+   		document.getElementById("tabDer2").innerHTML = montarTabela(dermo2, "DERMO");
+   		document.getElementById("tabOut").innerHTML = montarTabela(alim, "ALIMENTO");
+   		document.getElementById("tabOut2").innerHTML = montarTabela(alim2, "ALIMENTO");
+   		//document.getElementById("tabOut").innerHTML = montarTabela(outros, "OUTROS");
 
    		//liberar botao de imprimir
    		document.getElementById("print2").style = 'opacity:1';
@@ -233,20 +290,18 @@ print
 }
 
 function montarTabela(dado, titulo){
-   			var ret = '<tr><th colspan="6">' + titulo + '</th></tr><tr><th>Codigo</th><th>Descrição</th><th>Localização</th><th>Qtd Pedida</th><th>Cubagem</th><th>Abastecimento</th></tr>';
-   			for(var j = 1; j <= 30; j++){
+   			var ret = '<tr><th colspan="6">' + titulo + '</th></tr><tr><th>Codigo</th><th>Descrição</th><th>Localização</th><th>Qtd Pedida</th><th>Status</th></tr>';
+   			for(var j = 0; j < 30; j++){
    				if(dado[j] != undefined){
    					ret += "<tr>" + 
    							"<td>" + dado[j]["codigo"] + "</td>" +
    							"<td>" + dado[j]["descricao"] + "</td>" +
    							"<td>" + dado[j]["localizacao"] + "</td>" +
    							"<td>" + dado[j]["pedida"] + "</td>" +
-   							"<td>" + dado[j]["cubagem"] + "</td>" +
-   							"<td>" + dado[j]["abast"] + "</td>" +
+   							"<td></td>" +
    							"</tr>";
    				}else{ 
    					ret += "<tr>" + 
-   						"<td>" + "-" + "</td>" +
    						"<td>" + "-" + "</td>" +
    						"<td>" + "-" + "</td>" +
    						"<td>" + "-" + "</td>" +
@@ -273,13 +328,21 @@ function limparDados(){
 }
 </script>
 
-<table border="1" id="tabMed" style="width:80%"></table>
+<table border="1" id="tabMed" style="width:100%"></table>
 <p class="quebrar"></p>
-<table border="1" id="tabPer" style="width:80%"></table>
+<table border="1" id="tabMed2" style="width:100%"></table>
 <p class="quebrar"></p>
-<table border="1" id="tabDer" style="width:80%"></table>
+<table border="1" id="tabPer" style="width:100%"></table>
 <p class="quebrar"></p>
-<table border="1" id="tabOut" style="width:80%"></table>
+<table border="1" id="tabPer2" style="width:100%"></table>
+<p class="quebrar"></p>
+<table border="1" id="tabDer" style="width:100%"></table>
+<p class="quebrar"></p>
+<table border="1" id="tabDer2" style="width:100%"></table>
+<p class="quebrar"></p>
+<table border="1" id="tabOut" style="width:100%"></table>
+<p class="quebrar"></p>
+<table border="1" id="tabOut2" style="width:100%"></table>
 
 
 </body>
