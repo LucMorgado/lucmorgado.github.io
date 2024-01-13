@@ -121,8 +121,6 @@ print
 		//remover primeira linha
 		linhas.shift();
 
-
-
 		if(dadosGerais == ""){ 
 			alert("Por favor, né?!");
 
@@ -130,6 +128,7 @@ print
 		var out = "";
 		//bloco filtrar localizacao
 		let med = [], perf = [], dermo =[], alim = [], outros = [], med2 = [], perf2=[], dermo2=[],alim2=[];
+
     	for (var i in linhas) {
     		var linha = linhas[i].split("	");
     		var localizador = linha[14];
@@ -142,21 +141,22 @@ print
     		//separar e organizar pelo mais pedido
     		var filtro = localizador.split("-");
 
-    		switch (filtro[0]) {
-    			case "V41":
-    				let objPer = {
+    		let objTem = {
     					"codigo" : 		linha[12],
     					"descricao" : 	linha[13],
     					"localizacao" : linha[14],
     					"pedida" : 		linha[16],
     				}
+
+    		switch (filtro[0]) {
+    			case "V41":
     				if(parseInt(filtro[2]) > 100){
-    					perf2.push(objPer);
+    					perf2.push(objTem);
 	    				perf2.sort(function(a,b){
 	    					return b.pedida - a.pedida;
 	    				});
     				}else{
-	    				perf.push(objPer);
+	    				perf.push(objTem);
 	    				perf.sort(function(a,b){
 	    					return b.pedida - a.pedida;
 	    				});
@@ -164,19 +164,13 @@ print
 
     				break;
     			case "V43":
-    				let objMed = {
-    					"codigo" : 		linha[12],
-    					"descricao" : 	linha[13],
-    					"localizacao" : linha[14],
-    					"pedida" : 		linha[16],
-    				}
     				if(parseInt(filtro[2]) > 100){
-    					med2.push(objMed);
+    					med2.push(objTem);
 	    				med2.sort(function(a,b){
 	    					return b.pedida - a.pedida;
 	    				});
     				}else{
-	    				med.push(objMed);
+	    				med.push(objTem);
 	    				med.sort(function(a,b){
 	    					return b.pedida - a.pedida;
 	    				});
@@ -186,49 +180,30 @@ print
     			default:
     				var local = filtro[0][0] + filtro[0][1];
     				if(local == "VW"){ 
-    					let objDermo = {
-    					"codigo" : 		linha[12],
-    					"descricao" : 	linha[13],
-    					"localizacao" : linha[14],
-    					"pedida" : 		linha[16],
-    				}
     				if(filtro[1] == "01"){ 
-    					dermo.push(objDermo);
+    					dermo.push(objTem);
     					dermo.sort(function(a,b){
     						return b.pedida - a.pedida;
     					});
     				}else{
-    					dermo2.push(objDermo);
+    					dermo2.push(objTem);
     					dermo2.sort(function(a,b){
     						return b.pedida - a.pedida;
     					});
     				}
 
     				}else if(local == "VY"){
-    					let objAlim = {
-    					"codigo" : 		linha[12],
-    					"descricao" : 	linha[13],
-    					"localizacao" : linha[14],
-    					"pedida" : 		linha[16]
-    				}
     				if(filtro[1] == "01"){ 
-    					alim.push(objAlim);
+    					alim.push(objTem);
     					alim.sort(function(a,b){
     						return b.pedida - a.pedida;});
     				}else{
-    					alim2.push(objAlim);
+    					alim2.push(objTem);
     					alim2.sort(function(a,b){
     						return b.pedida - a.pedida;});
     				}
     				}else{ 
-	    						//out += "--> outros\n";
-	    						let objOut = {
-	    						"codigo" : 		linha[12],
-	    						"descricao" : 	linha[13],
-	    						"localizacao" : linha[14],
-	    						"pedida" : 		linha[16],
-	    					}
-	    					outros.push(objOut);
+	    					outros.push(objTem);
 	    					outros.sort(function(a,b){
 	    						return b.pedida - a.pedida;
 	    					});
@@ -236,6 +211,16 @@ print
     				break;
     		}
 		}
+
+		//ordenar por endereco
+		perf = mesclarIguais(perf);
+		perf2 = mesclarIguais(perf2);
+		med = mesclarIguais(med);
+		med2 = mesclarIguais(med2);
+		dermo = mesclarIguais(dermo);
+		dermo2 = mesclarIguais(dermo2);
+		alim = mesclarIguais(alim);
+		alim2 = mesclarIguais(alim2);
 
 		//filtrar os 30 mais
 		med = filtrarTrinta(med);
@@ -269,7 +254,37 @@ print
    			 return a.localizacao < b.localizacao ? -1 : a.localizacao > b.localizacao ? 1 : 0;
 			} );
 			return c;		 
-		}   		
+		}   
+
+
+		function mesclarIguais(d){
+			var lisTem=[];
+			let ult = {
+    					"codigo" : 		"0",
+    					"descricao" : 	"0",
+    					"localizacao" : "0",
+    					"pedida" : 		"0",
+    				}
+			d.sort(function(a,b) {
+				return a.codigo - b.codigo;
+			});
+			for(var l in d){
+				if(d[l].codigo == ult.codigo){
+					var ultimoIndex = parseInt(lisTem.length - 1);
+					var saldoAnt 	= parseInt(lisTem[ultimoIndex].pedida);
+					lisTem[ultimoIndex].pedida = saldoAnt + parseInt(d[l].pedida);
+
+				}else{
+					lisTem.push(d[l]);
+				}
+				ult = d[l];
+			}
+			lisTem.sort(function(a,b) {
+   				return b.pedida - a.pedida;
+			} );
+			return lisTem;
+
+		}	
 
 		//mostrar tabela na tela
    		document.getElementById("tabMed").innerHTML = montarTabela(med, "MEDICAMENTOS");
@@ -327,6 +342,10 @@ function limparDados(){
 	document.getElementById('dados').value = "";
 }
 </script>
+
+<pre id="console">
+	
+</pre>
 
 <table border="1" id="tabMed" style="width:100%"></table>
 <p class="quebrar"></p>
