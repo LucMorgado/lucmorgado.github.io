@@ -26,7 +26,6 @@
 font-size: 10pt}
 .pop {
 		width: 500px;
-    height: 500px;
     border-radius: 20px;
     margin: 40px auto;
     background: white;
@@ -44,7 +43,7 @@ td	{ padding-left:5px }
     max-width: 350px;
     max-height: 300px;
     min-width: 350px;
-    margin: 30px auto;
+    margin: 10px auto;
     height: 300px;
     border: 0;
     font-size: 4pt;
@@ -93,6 +92,16 @@ td	{ padding-left:5px }
     width: 136px;
     }
 
+    .checks { margin:20px 0;opacity:0.2; cursor:no-drop!important; }
+
+    .checkbox label, .checkbox span { width:200px }
+
+    .checkbox {
+    	display: flex;
+    justify-content: space-between;
+    align-items: center;
+    }
+
 @media print{ 
 	.esconder { display:none; }
 }
@@ -100,9 +109,49 @@ td	{ padding-left:5px }
 </head>
 <body>
 	<div class="pop esconder">
-		<span>V1.3</span>
+		<span style="margin-top:20px">V2.1</span>
 	<textarea maxli id="dados" name="dados"></textarea>
-	<div style="display:flex;width: 100%;flex-direction: row;flex-wrap: nowrap;justify-content: space-evenly;">		
+	<div class="checks">
+		<div class="checkbox">
+			<label>Medicamento: </label>
+			<span>
+				<input type="checkbox" checked id="CheckMed2">Flowrack
+				<input type="checkbox" checked id="CheckMed3">Estante				
+			</span>
+		</div>
+		<div class="checkbox">
+			<label>Perfumaria: </label>
+			<span>
+				<input type="checkbox" checked id="CheckPer2">Flowrack
+				<input type="checkbox" checked id="CheckPer3">Estante				
+			</span>
+		</div>
+		<div class="checkbox">
+			<label>Dermo: </label>
+			<span>
+				<input type="checkbox" checked id="CheckDer1">Flowrack
+				<input type="checkbox" checked id="CheckDer2">Estante				
+			</span>
+		</div>
+		<div class="checkbox">
+			<label>Alimento: </label>
+			<span>
+				<input type="checkbox" checked id="CheckAli1">Flowrack
+				<input type="checkbox" checked id="CheckAli2">Estante				
+			</span>
+		</div>
+		<hr>
+		<div class="checkbox">
+			<label>Quantos: </label>
+			<span>
+				<input type="radio"  name="qtd" id="top10">10			
+				<input type="radio" checked name="qtd" id="top20">30				
+				<input type="radio"  name="qtd" id="top50">50				
+			</span>
+		</div>
+		
+	</div>
+	<div style="display:flex;width: 100%;flex-direction: row;flex-wrap: nowrap;justify-content: space-evenly;margin: 20px 0;">		
 		<div class="botao" onclick="gerarDados()">GERAR</div>
 		<div class="botao limpar" onclick="limparDados()"><div class="modulo">LIMPAR</div></div>
 	</div>
@@ -114,21 +163,30 @@ print
 <script type="text/javascript">
 	let podeImprimir = false;
 	function gerarDados(){
+		console.log("Iniciando");
 		const dadosGerais = document.getElementById('dados').value;
 		const saida = document.getElementById('saida');
 		var linhas = dadosGerais.split("\n");
+		console.log("DOM capturados");
 
-		//remover primeira linha
-		linhas.shift();
 
+		console.log("verificando se há dados");
 		if(dadosGerais == ""){ 
 			alert("Por favor, né?!");
-
 		}else{
+			//remover primeira linha
+			linhas.shift();
+			console.log("linha de titulo removida");
+		
+
 		var out = "";
 		//bloco filtrar localizacao
 		let med = [], perf = [], dermo =[], alim = [], outros = [], med2 = [], perf2=[], dermo2=[],alim2=[];
+		let produtos = [];
+		console.log("variaveis iniciadas");
 
+
+		console.log("montando lista de produtos");
     	for (var i in linhas) {
     		var linha = linhas[i].split("	");
     		var localizador = linha[14];
@@ -146,108 +204,89 @@ print
     					"descricao" : 	linha[13],
     					"localizacao" : linha[14],
     					"pedida" : 		linha[16],
+    					"categoria" : 	""
     				}
 
     		switch (filtro[0]) {
     			case "V41":
     				if(parseInt(filtro[2]) > 100){
-    					perf2.push(objTem);
-	    				perf2.sort(function(a,b){
-	    					return b.pedida - a.pedida;
-	    				});
+    					objTem.categoria = "PER3";
     				}else{
-	    				perf.push(objTem);
-	    				perf.sort(function(a,b){
-	    					return b.pedida - a.pedida;
-	    				});
+	    				objTem.categoria = "PER2";
     				}
 
     				break;
     			case "V43":
     				if(parseInt(filtro[2]) > 100){
-    					med2.push(objTem);
-	    				med2.sort(function(a,b){
-	    					return b.pedida - a.pedida;
-	    				});
+    					objTem.categoria = "MED3";
     				}else{
-	    				med.push(objTem);
-	    				med.sort(function(a,b){
-	    					return b.pedida - a.pedida;
-	    				});
+	    				objTem.categoria = "MED2";
     				}
     				
     				break;
     			default:
     				var local = filtro[0][0] + filtro[0][1];
     				if(local == "VW"){ 
-    				if(filtro[1] == "01"){ 
-    					dermo.push(objTem);
-    					dermo.sort(function(a,b){
-    						return b.pedida - a.pedida;
-    					});
-    				}else{
-    					dermo2.push(objTem);
-    					dermo2.sort(function(a,b){
-    						return b.pedida - a.pedida;
-    					});
-    				}
-
+    					if(filtro[1] == "01"){ 
+    						objTem.categoria = "DER1";
+    					}else{
+    						objTem.categoria = "DER2";
+    					}
     				}else if(local == "VY"){
-    				if(filtro[1] == "01"){ 
-    					alim.push(objTem);
-    					alim.sort(function(a,b){
-    						return b.pedida - a.pedida;});
-    				}else{
-    					alim2.push(objTem);
-    					alim2.sort(function(a,b){
-    						return b.pedida - a.pedida;});
-    				}
-    				}else{ 
-	    					outros.push(objTem);
-	    					outros.sort(function(a,b){
-	    						return b.pedida - a.pedida;
-	    					});
+    					if(filtro[1] == "01"){ 
+    						objTem.categoria = "ALI1";
+    					}else{
+    						objTem.categoria = "ALI2";
+    					}
     				}
     				break;
     		}
+    		produtos.push(objTem);
 		}
 
-		//ordenar por endereco
-		perf = mesclarIguais(perf);
-		perf2 = mesclarIguais(perf2);
-		med = mesclarIguais(med);
-		med2 = mesclarIguais(med2);
-		dermo = mesclarIguais(dermo);
-		dermo2 = mesclarIguais(dermo2);
-		alim = mesclarIguais(alim);
-		alim2 = mesclarIguais(alim2);
+
+			console.log("lista completa");
+
+    		produtos.sort(function(a,b) {
+				return a.codigo - b.codigo;
+			});
+			console.log("lista organizada por codigo");
+
+			console.log("mesclando repetidos");
+			produtos = mesclarIguais(produtos);
+
 
 		//filtrar os 30 mais
-		med = filtrarTrinta(med);
-		med2 = filtrarTrinta(med2);
-		perf = filtrarTrinta(perf);
-		perf2 = filtrarTrinta(perf2);
-		dermo = filtrarTrinta(dermo);
-		dermo2 = filtrarTrinta(dermo2);
-		alim = filtrarTrinta(alim);
-		alim2 = filtrarTrinta(alim2);
-		
-		function filtrarTrinta(a){
-			if(a.length > 30){ 
-				a.splice(30, parseInt(a.length - 30));
-			}
-			return a;
-		}
+		console.log("filtrar os top");
+		med = filtrarTop(produtos, "MED2", 30);
+		med2 = filtrarTop(produtos, "MED3", 30);
+		perf = filtrarTop(produtos, "PER2", 30);
+		perf2 = filtrarTop(produtos, "PER3", 30);
+		dermo = filtrarTop(produtos, "DER1", 30);
+		dermo2 = filtrarTop(produtos, "DER2", 30);
+		alim = filtrarTop(produtos, "ALI1", 30);
+		alim2 = filtrarTop(produtos, "ALI2", 30);
 
-		//ordenar por endereco
-		perf = ordemLocalizacao(perf);
-		perf2 = ordemLocalizacao(perf2);
-		med = ordemLocalizacao(med);
-		med2 = ordemLocalizacao(med2);
-		dermo = ordemLocalizacao(dermo);
-		dermo2 = ordemLocalizacao(dermo2);
-		alim = ordemLocalizacao(alim);
-		alim2 = ordemLocalizacao(alim2);
+		
+		function filtrarTop(objs, cat, qtd){
+			let objetos = objs.slice(); //lista de produtos
+			let listaDeObjetos =[];
+			//organizar pelo mais pedido
+			objetos.sort(function(a,b){
+				return b.pedida - a.pedida;
+			});
+
+			for(var p in objetos){
+				if(objetos[p].categoria == cat){
+					//jogar a categoria na lista
+					listaDeObjetos.push(objetos[p]);
+					if(listaDeObjetos.length >= qtd){
+						break;
+					}
+				}
+			}
+			return ordemLocalizacao(listaDeObjetos);
+		}
 
 		function ordemLocalizacao(c){
 			 c.sort(function(a,b) {
@@ -265,9 +304,6 @@ print
     					"localizacao" : "0",
     					"pedida" : 		"0",
     				}
-			d.sort(function(a,b) {
-				return a.codigo - b.codigo;
-			});
 			for(var l in d){
 				if(d[l].codigo == ult.codigo){
 					var ultimoIndex = parseInt(lisTem.length - 1);
@@ -279,9 +315,6 @@ print
 				}
 				ult = d[l];
 			}
-			lisTem.sort(function(a,b) {
-   				return b.pedida - a.pedida;
-			} );
 			return lisTem;
 
 		}	
@@ -302,6 +335,23 @@ print
    		podeImprimir = true;
    	}
 
+}
+
+function montrarTeste(array){
+	let tela = document.getElementById("console");
+	var inner = "<table border=1>";
+	inner += "<tr><th>Codigo</th><th>endereço</th><th>categoria</th><th>QTD</th></tr>";
+	for(var p in array){
+		inner += 	"<tr><td>" 	+ array[p].codigo + 
+				 	"</td><td>"		+ array[p].localizacao +
+				 	"</td><td>"		+ array[p].categoria +
+				 	"</td><td>"		+ array[p].pedida +
+				 	"</td></tr>";
+	}
+	inner += "</table>";
+	console.log(array[0]);
+
+	tela.innerHTML = inner;
 }
 
 function montarTabela(dado, titulo){
@@ -343,9 +393,9 @@ function limparDados(){
 }
 </script>
 
-<pre id="console">
+<div id="console">
 	
-</pre>
+</div>
 
 <table border="1" id="tabMed" style="width:100%"></table>
 <p class="quebrar"></p>
