@@ -1,22 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Top 30</title>
-	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-	<style>
-.material-symbols-outlined {
-  font-variation-settings:
-  'FILL' 0,
-  'wght' 400,
-  'GRAD' 0,
-  'opsz' 24
-}
-</style>
-	<style>
-  @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
-</style>
 	<style type="text/css">
 		body { background:#eee; font-family: 'Montserrat', sans-serif;}
 		.quebrar { page-break-before: always; }
@@ -104,12 +91,13 @@ td	{ padding-left:5px }
 
 @media print{ 
 	.esconder { display:none; }
+	@print { size: landscape; }
 }
 	</style>
 </head>
 <body>
 	<div class="pop esconder">
-		<span style="margin-top:20px">V2.1</span>
+		<span style="margin-top:20px">V2.2 - OFFLINE - FOR</span>
 	<textarea maxli id="dados" name="dados"></textarea>
 	<div class="checks">
 		<div class="checkbox">
@@ -207,40 +195,36 @@ print
     					"categoria" : 	""
     				}
 
-    		switch (filtro[0]) {
-    			case "V41":
-    				if(parseInt(filtro[2]) > 100){
-    					objTem.categoria = "PER3";
-    				}else{
-	    				objTem.categoria = "PER2";
-    				}
+    		if(filtro[0] == "V41"){
+    			if(parseInt(filtro[2]) > 100){
+    				objTem.categoria = "PER3";
+    			}else{
+	    			objTem.categoria = "PER2";
+    			}
+    		}else if(filtro[0] == "V43"){
+    			if(parseInt(filtro[2]) > 100){
+    				objTem.categoria = "MED3";
+    			}else{
+	    			objTem.categoria = "MED2";
+    			}
+    		}else{
+    			var local = filtro[0][0] + filtro[0][1];
 
-    				break;
-    			case "V43":
-    				if(parseInt(filtro[2]) > 100){
-    					objTem.categoria = "MED3";
+    			if(local == "VW"){ 
+    				if(filtro[1] == "01"){ 
+    					objTem.categoria = "DER1";
     				}else{
-	    				objTem.categoria = "MED2";
+    					objTem.categoria = "DER2";
     				}
-    				
-    				break;
-    			default:
-    				var local = filtro[0][0] + filtro[0][1];
-    				if(local == "VW"){ 
-    					if(filtro[1] == "01"){ 
-    						objTem.categoria = "DER1";
-    					}else{
-    						objTem.categoria = "DER2";
-    					}
-    				}else if(local == "VY"){
-    					if(filtro[1] == "01"){ 
-    						objTem.categoria = "ALI1";
-    					}else{
-    						objTem.categoria = "ALI2";
-    					}
+    			}else if(local == "VY"){
+    				if(filtro[1] == "01"){ 
+    					objTem.categoria = "ALI1";
+    				}else{
+    					objTem.categoria = "ALI2";
     				}
-    				break;
+    			}
     		}
+
     		produtos.push(objTem);
 		}
 
@@ -333,6 +317,7 @@ print
    		//liberar botao de imprimir
    		document.getElementById("print2").style = 'opacity:1';
    		podeImprimir = true;
+   		window.print();
    	}
 
 }
