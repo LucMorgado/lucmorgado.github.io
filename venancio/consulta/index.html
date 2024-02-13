@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Consulta Rápida</title>
+	<style type="text/css">
+		*{padding: 0;margin: 0;}
+		#header{text-align: center;position: fixed;height: 100px;top: 0px;left: 0px;background: black;color: white;width: 100%;padding-top: 50px}
+		input{ width:90%;margin:10em 5%;height:50px;font-size:x-large; }
+	</style>
+</head>
+<body>
+
+	<div id="header">		
+		<h1 id="resultado">V00-00-000</h1>
+		<p id="descricao">Descrição</p>
+	</div>
+
+	<input type="number" id="ean" onchange="consultar()">
+
+	<script type="text/javascript" src="dados.js"></script>
+	<script type="text/javascript">
+		document.getElementById('ean').focus();
+
+		function consultar(){
+			let header = document.getElementById('header');
+			let outEndereco = document.getElementById('resultado');
+			let outDescricao = document.getElementById('descricao');
+			let inputEAN = document.getElementById('ean');
+			let achou = false;
+
+			console.log("Procurando " + inputEAN.value);
+   			for (var i in dados){
+   				if(inputEAN.value==dados[i].EAN){
+   					header.style = "background: #0A0";
+   					outEndereco.innerHTML = dados[i].Picking;
+   					outDescricao.innerHTML = dados[i].Descricao;
+   					achou = true;
+   				}
+   			}
+   			if(!achou){
+   				header.style = "background: #A00";
+   				outEndereco.innerHTML = "Deu ruim, hein!";
+   				outDescricao.innerHTML = "EAN não encontrado";
+   				achou = false;
+   			}
+   			inputEAN.value = "";
+		}
+	</script>
+
+</body>
+</html>
