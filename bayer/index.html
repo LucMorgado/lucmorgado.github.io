@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="1/style.css">
+	<script src="1/usuarios.js" type="text/javascript" charset="utf-8" ></script>
 </head>
 <body class="bgDark">
 <div class="container">
@@ -29,21 +30,43 @@
 </svg>
 
 	</div>
-	<form class="formularioLogin" action="home.html" method="get" accept-charset="utf-8">
+	<div class="formularioLogin" accept-charset="utf-8">
 		<div class="formCaixa">
-			<label class="txtCorBr" for="">MATRICULA</label>
-			<input type="number" name="" autofocus>
+			<label class="txtCorBr" for="matricula">MATRICULA</label>
+			<input id="matricula" type="number" name="" autofocus>
 		</div>
 		<div class="formCaixa">
-			<label class="txtCorBr" for="">SENHA</label>
-			<input type="password" name="">
+			<label class="txtCorBr" for="senha">SENHA</label>
+			<input id="senha" type="password" name="">
 		</div>
-		<div class="msg"></div>
-		<button type="">ENTRAR</button>
+		<div id="msg" class="msg txtCorBr"></div>
+		<button onclick="auth()" type="">ENTRAR</button>
 		
-	</form>
+	</div>
 </div>
+<a href="home.html" title="">ir a ahome</a>
 <script src="1/functions.js" type="text/javascript" charset="utf-8" async defer></script>
+
+<script>
+	
+	function auth(){
+		window.location.href = "home.html";
+		/*var matricula = document.getElementById('matricula').value;
+		var senha = document.getElementById('senha').value;
+
+		console.log(usuarios);
+		for(var i in usuarios){
+			console.log(usuarios[i]["matricula"]);
+			if(usuarios[i]["matricula"] == matricula && usuarios[i]["senha"] == senha){
+				localStorage.auth = true;
+				localStorage.nome = "nome": usuarios[i]["nome"]	;
+				localStorage.matricula = "matricula": usuarios[i]["nome"]	;
+				}
+		}*/
+	}
+
+
+</script>
 
 </body>
 </html>
