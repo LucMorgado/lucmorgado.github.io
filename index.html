@@ -1,148 +1,72 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Lucas Morgado</title>
-    <link rel="stylesheet" type="text/css" href="css/app.css">
-
-     <!-- AniCollection.css library -->
-    <link rel="stylesheet" href="http://anijs.github.io/lib/anicollection/anicollection.css">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>BAYER</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="1/style.css">
+	<script src="1/usuarios.js" type="text/javascript" charset="utf-8" ></script>
 </head>
-<body class="bg-dark">
-    <header class="bg-gradi borda">    
-        <div class="logo d-flex justify-content-center py-3" data-anijs="if: mouseover, do: pulse animated">
-            <img src="images/logo.svg">        
-        </div>
-    </header>
+<body class="bgDark">
+<div class="container">
+	<div class="logo">
+		<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="60px" viewBox="0 0 38.3 35.1" style="overflow:visible;enable-background:new 0 0 38.3 35.1;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#E41B3D;}
+	.st1{fill:#FFFFFF;}
+</style>
+<defs>
+</defs>
+<g>
+	<path class="st0" d="M37.9,5.4L22.6,33.1c-1.4,2.6-5.4,2.6-6.8,0L0.5,5.4C-0.9,2.9,1,0,3.9,0h11.6v4.8h-4.9c-1,0-1.8,0.8-1.8,1.8
+		v4.1c0,1,0.8,1.8,1.8,1.8h4.9v4.8c0,1,0.8,1.8,1.8,1.8h4.1c1,0,1.8-0.8,1.8-1.8v-4.8H28c1,0,1.8-0.8,1.8-1.8V6.6
+		c0-1-0.8-1.8-1.8-1.8h-4.9V0h11.3C37.4,0,39.2,2.9,37.9,5.4z"/>
+	<path class="st1" d="M29.8,6.6v4.1c0,1-0.8,1.8-1.8,1.8h-4.9v4.8c0,1-0.8,1.8-1.8,1.8h-4.1c-1,0-1.8-0.8-1.8-1.8v-4.8h-4.9
+		c-1,0-1.8-0.8-1.8-1.8V6.6c0-1,0.8-1.8,1.8-1.8h4.9V0h7.7v4.8H28C29,4.8,29.8,5.6,29.8,6.6z"/>
+</g>
+</svg>
 
-    <section class="skill-dev container" data-anijs="if: mouseover, on: figure, do: tada animated, to: target">
-        <h2 class="text-center text-white fw-normal mt-5 fs-2">Developer Skills</h2>
+	</div>
+	<div class="formularioLogin" accept-charset="utf-8">
+		<div class="formCaixa">
+			<label class="txtCorBr" for="matricula">MATRICULA</label>
+			<input id="matricula" type="number" name="" autofocus>
+		</div>
+		<div class="formCaixa">
+			<label class="txtCorBr" for="senha">SENHA</label>
+			<input id="senha" type="password" name="">
+		</div>
+		<div id="msg" class="msg txtCorBr"></div>
+		<button onclick="auth()" type="">ENTRAR</button>
+		
+	</div>
+</div>
+<a href="home.html" title="">ir a ahome</a>
+<script src="1/functions.js" type="text/javascript" charset="utf-8" async defer></script>
 
-        <div class="skill-list d-flex justify-content-center flex-wrap" >
-            <div class="m-3 bg-clean skill">
-                <figure class="ic-html proj-mega"></figure>
-                <h4 class="text-center text-white fw-light fs-4 py-2">HTML</h4>
-            </div>
-            <div class="m-3 bg-clean skill">
-                <figure class="ic-css proj-mega"></figure>
-                <h4 class="text-center text-white fw-light fs-4 py-2">CSS</h4>
-            </div>
-            <div class="m-3 bg-clean skill">
-                <figure class="ic-js proj-mega"></figure>
-                <h4 class="text-center text-white fw-light fs-4 py-2">JavaScript</h4>
-            </div>
-            <div class="m-3 bg-clean skill">
-                <figure class="ic-bootstrap proj-mega"></figure>
-                <h4 class="text-center text-white fw-light fs-4 py-2">Bootstrap</h4>
-            </div>
-            <div class="m-3 bg-clean skill">
-                <figure class="ic-git proj-mega"></figure>
-                <h4 class="text-center text-white fw-light fs-4 py-2">Git</h4>
-            </div>
-            <div class="m-3 bg-clean skill">
-                <figure class="ic-github proj-mega"></figure>
-                <h4 class="text-center text-white fw-light fs-4 py-2">Github</h4>
-            </div>
-            <div class="m-3 bg-clean skill">
-                <figure class="ic-java"></figure>
-                <h4 class="text-center text-white fw-light fs-4 py-2">Java</h4>
-            </div>
-            <div class="m-3 bg-clean skill">
-                <figure class="ic-php proj-mega"></figure>
-                <h4 class="text-center text-white fw-light fs-4 py-2">PHP</h4>
-            </div>
-            <div class="m-3 bg-clean skill">
-                <figure class="ic-laravel proj-mega"></figure>
-                <h4 class="text-center text-white fw-light fs-4 py-2">Laravel</h4>
-            </div>
-            <div class="m-3 bg-clean skill">
-                <figure class="ic-composer proj-mega"></figure>
-                <h4 class="text-center text-white fw-light fs-4 py-2">Composer</h4>
-            </div>
-            <div class="m-3 bg-clean skill">
-                <figure class="ic-sql proj-mega"></figure>
-                <h4 class="text-center text-white fw-light fs-4 py-2">SQL</h4>
-            </div>
-            <div class="m-3 bg-clean skill">
-                <figure class="ic-npm proj-mega"></figure>
-                <h4 class="text-center text-white fw-light fs-4 py-2">NPM</h4>
-            </div>
-            <div class="m-3 bg-clean skill">
-                <figure class="ic-firebase"></figure>
-                <h4 class="text-center text-white fw-light fs-4 py-2">Firebase</h4>
-            </div>
-            <div class="m-3 bg-clean skill">
-                <figure class="ic-oop proj-mega"></figure>
-                <h4 class="text-center text-white fw-light fs-4 py-2">OOP</h4>
-            </div>
-        </div>
-    </section>
+<script>
+	
+	function auth(){
+		window.location.href = "home.html";
+		/*var matricula = document.getElementById('matricula').value;
+		var senha = document.getElementById('senha').value;
 
-     <section class="skill-des container">
-        <h2 class="text-center text-white fw-normal mt-5 fs-2">Designer Skills</h2>
+		console.log(usuarios);
+		for(var i in usuarios){
+			console.log(usuarios[i]["matricula"]);
+			if(usuarios[i]["matricula"] == matricula && usuarios[i]["senha"] == senha){
+				localStorage.auth = true;
+				localStorage.nome = "nome": usuarios[i]["nome"]	;
+				localStorage.matricula = "matricula": usuarios[i]["nome"]	;
+				}
+		}*/
+	}
 
-        <div class="skill-list d-flex justify-content-center flex-wrap">
-            <div class="m-3 bg-clean skill">
-                <figure class="ic-illustrator proj-mega"></figure>
-                <h4 class="text-center text-white fw-light fs-4 py-2">Illustrator</h4>
-            </div>
-             <div class="m-3 bg-clean skill">
-                <figure class="ic-photoshop proj-mega proj-snes"></figure>
-                <h4 class="text-center text-white fw-light fs-4 py-2">Photoshop</h4>
-            </div>
-             <div class="m-3 bg-clean skill">
-                <figure class="ic-coreldraw"></figure>
-                <h4 class="text-center text-white fw-light fs-4 py-2">Corel Draw</h4>
-            </div>
-             <div class="m-3 bg-clean skill">
-                <figure class="ic-3dsmax proj-snes" ></figure>
-                <h4 class="text-center text-white fw-light fs-4 py-2">3dsmax</h4>
-            </div>
-        </div>
-    </section>
 
-      <section class="projects container">
-        <h2 class="text-center text-white fw-normal mt-5 fs-2">Projects</h2>
-
-        <div class="d-flex justify-content-center flex-wrap">
-            <div class="project"  data-anijs="if: mouseover, do: tada animated, to: .proj-mega">
-                <a href="https://github.com/LucMorgado/MegaPharma" target="_blank">
-                    <img src="images/mega.svg">
-                </a>
-            </div>
-            <div class="project"  data-anijs="if: mouseover, do: tada animated, to: .proj-snes">
-                <a href="https://www.behance.net/gallery/29324657/Joystick-Super-Nintedo" target="_blank">
-                    <img src="images/projects/snes-001.png">
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <footer class="bg-gradi pb-3">    
-       <p class="text-center text-primary m-0 p-2">Lucas Morgado</p>
-       <div class="d-flex justify-content-center container">
-           <div class="icone-social bg-secondary rounded m-1">
-               <a href="https://github.com/LucMorgado">
-                   <img src="images/github-white.svg">
-               </a>
-           </div>
-           <div class="icone-social bg-secondary rounded m-1">
-               <a href="https://www.behance.net/lucasmorgado">
-                   <img src="images/behance.svg">
-               </a>
-           </div>
-           <div class="icone-social bg-secondary rounded m-1">
-               <a href="mailto:LucMorgado@outlook.com">
-                   <img src="images/mail.svg">
-               </a>
-           </div>
-       </div>
-    </footer>
-
-<script type="text/javascript" src="js/anijs/dist/anijs-min.js"></script>
+</script>
 
 </body>
-
-
 </html>

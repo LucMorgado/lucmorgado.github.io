@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>BAYER | GERENCIAR</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+	<link rel="stylesheet" type="text/css" href="1/style.css">
+</head>
+<body>
+<div class="container">
+	<header class="bgDark">
+		<div class="card">		
+			<div class="cover">
+				<span class="material-symbols-outlined">person</span>
+			</div>
+			<div>
+				<h2>Nome</h2>
+				<h3>0140000</h3>
+			</div>
+		</div>
+		<div class="menu" onclick="drop()">
+			<span class="material-symbols-outlined">more_vert</span>
+			
+			<div id="dropmenu" class="bgDark" >
+				<a class="txtCorBr" href="home.html">				
+					<span class="material-symbols-outlined">home</span>INICIO
+				</a>
+				<a class="txtCorBr" href="index.html">				
+					<span class="material-symbols-outlined">logout</span>SAIR
+				</a>
+			</div>
+		</div>
+	</header>
+	<h1 class="bgDark">GERENCIAR</h1>
+	<a class="btNovo">
+		<span class="material-symbols-outlined" onclick="mostarModal('modalNovo')">add</span>
+	</a>
+	<div class="telas">
+		<div class="listaUsuarios">
+			<div class="usuario">				
+				<div class="card">		
+					<div class="cover">
+						<span class="material-symbols-outlined">person</span>
+					</div>
+					<div>
+						<h2 class="txtCorPr">Nome</h2>
+						<h3 class="txtCorPr">0140000</h3>
+					</div>
+				</div>
+				<div class="menu">
+					<a class="txtCorPr" href="#">				
+						<span class="txtCorPr material-symbols-outlined" onclick="mostarModal('modalEditar')">edit</span>
+					</a>
+					<a class="txtCorPr" href="#">				
+						<span class="txtCorPr material-symbols-outlined" onclick="mostarModal('modalDesativar')">block</span>
+					</a>
+				</div>
+			</div><!-- fim usuario -->
+		</div>
+
+		<div>
+			<p id="msg"></p>
+		</div>
+	</div>
+
+
+	<div class="modal " id="modalEditar">
+		<a class="close" onclick="fecharModal(this)">
+			<span class="txtCorPr material-symbols-outlined">close</span>
+		</a>
+		<h3>EDITAR USUARIO</h3>
+	</div>
+	<div class="modal " id="modalDesativar">
+		<a class="close" onclick="fecharModal(this)">
+			<span class="txtCorPr material-symbols-outlined">close</span>
+		</a>
+		<h3>DESATIVAR USUARIO</h3>
+		<div class="btSend">
+				<a href="#">DESATIVAR</a>
+				<a href="#">CANCELAR</a>
+		</div>
+	</div>
+	<div class="modal" id="modalNovo">
+		<a class="close" onclick="fecharModal(this)">
+			<span class="txtCorPr material-symbols-outlined">close</span>
+		</a>
+		<h3>NOVO USUARIO</h3>
+
+		<div class="formCaixa">
+			<label class="txtCorBr" for="matricula">MATRICULA</label>
+			<input id="matricula" type="number" name="" autofocus>
+		</div>
+		<div class="formCaixa">
+			<label class="txtCorBr" for="nome">NOME</label>
+			<input id="nome" type="text" name="" >
+		</div>
+		<div class="formCaixa">
+			<label class="txtCorBr" for="senha">SENHA</label>
+			<input id="senha" type="password" name="" >
+		</div>
+		<div class="formCheck">
+			<label class="txtCorBr">ACESSOS</label>
+			<div class="checks">				
+			<div class="check"><input onchange="inputCheck(this)" type="checkbox" value="0"><span class="txtCorPr material-symbols-outlined">dashboard</span><h5>DASHBOARD</h5></div>
+			<div class="check"><input onchange="inputCheck(this)" type="checkbox" value="0"><span class="txtCorPr material-symbols-outlined">admin_panel_settings</span><h5>GERENCIAR</h5></div>
+			<div class="check"><input onchange="inputCheck(this)" type="checkbox" value="0"><span class="txtCorPr material-symbols-outlined">pallet</span><h5>TRIAGEM</h5></div>
+			<div class="check"><input onchange="inputCheck(this)" type="checkbox" value="0"><span class="txtCorPr material-symbols-outlined">shelves</span><h5>ALOCAÇÃO</h5></div>
+			</div>			
+		</div>
+		<div class="btSend">
+				<a href="#">CADASTRAR</a>
+		</div>
+	</div>
+
+</div>
+
+
+<script type="text/javascript" charset="utf-8" async defer>
+	
+	function triar(master){
+		document.getElementById('msg').innerHTML = "ÚLTIMA MASTER LIDA " + master.value.toUpperCase();
+
+		master.value = "";
+
+	}
+
+	function inputCheck(input){
+		var pai = input.parentElement;
+			if(input.checked){
+				pai.style = "background-color:#2A3780;";
+			}else{
+				pai.style = "background-color:#aaa";
+
+			}
+	}
+
+	function fecharModal(filho){
+		var pai = filho.parentElement;
+		pai.style = "display:none";
+	}
+
+	function mostarModal(id){
+		document.getElementById(id).style = "display:block";
+	}
+
+</script>
+<script src="1/functions.js" type="text/javascript" charset="utf-8" async defer></script>
+</body>
+</html>
