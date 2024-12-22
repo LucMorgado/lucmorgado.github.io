@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
-	<link rel="stylesheet" type="text/css" href="1/style.css">
+	<link rel="stylesheet" type="text/css" href="1/style.css?v=1.02">
 </head>
 <body>
 <div class="container">
@@ -18,21 +18,17 @@
 				<span class="material-symbols-outlined">person</span>
 			</div>
 			<div>
-				<h2>Nome</h2>
-				<h3>0140000</h3>
+				<h2 id="nome">Nome</h2>
+				<h3 id="matricula">0140000</h3>
 			</div>
 		</div>
-		<div class="menu" onclick="drop()">
-			<span class="material-symbols-outlined">more_vert</span>
-			
-			<div id="dropmenu" class="bgDark" >
+		<div class="menu">	
 				<a class="txtCorBr" href="home.html">				
-					<span class="material-symbols-outlined">home</span>INICIO
+					<span class="material-symbols-outlined">home</span>
 				</a>
-				<a class="txtCorBr" href="index.html">				
-					<span class="material-symbols-outlined">logout</span>SAIR
+				<a class="txtCorBr" href="index.html"  onclick="sair()">				
+					<span class="material-symbols-outlined">logout</span>
 				</a>
-			</div>
 		</div>
 	</header>
 	<h1 class="bgDark">TRIAR</h1>
@@ -50,10 +46,36 @@
 
 
 <script type="text/javascript" charset="utf-8" async defer>
-	
-	function triar(master){
-		document.getElementById('msg').innerHTML = "ÚLTIMA MASTER LIDA " + master.value.toUpperCase();
+	var usuario = JSON.parse(localStorage.getItem("usuario")) || false;
+	if(usuario!=false && usuario["triagem"]){
+		document.getElementById("nome").innerHTML = usuario["nome"];
+		document.getElementById("matricula").innerHTML = usuario["matricula"];
+	}else{
+		window.location.href = "index.html";
+	}
 
+	var masters = JSON.parse(localStorage.getItem("tabelaMasters")) || [];
+
+	function triar(master){
+		var filtro = master.value.substr(0,2).toUpperCase();
+		if(filtro != "PL"){
+			alert("MASTER INVALIDA");
+		}else{
+			var data = new Date();
+			var tempo = data.getDate() + "/" + data.getMonth() + "/" + data.getFullYear() + " - " + data.getHours() + ":";
+			tempo += data.getMinutes() < 10 ? "0" + data.getMinutes() : data.getMinutes();
+			
+			const mlida = {
+				"master": master.value,
+				"usuario": usuario,
+				"data": tempo
+			};
+			
+			masters.push(mlida);
+			localStorage.setItem("tabelaMasters", JSON.stringify(masters));
+			document.getElementById('msg').innerHTML = "ÚLTIMA MASTER LIDA " + master.value.toUpperCase();
+
+		}
 		master.value = "";
 
 	}

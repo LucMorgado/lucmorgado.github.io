@@ -1,3 +1,5 @@
+
+
 	var showDrop = false;
 	function drop(){
 		var dropmenu = document.getElementById('dropmenu');
@@ -11,3 +13,8 @@
 		}
 
 	}
+
+
+function sair(){
+	localStorage.removeItem("usuario");
+}

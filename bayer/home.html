@@ -28,34 +28,35 @@
 			</a>
 		</div>
 	</header>
-	<div class="telas">
-		<a href="#" class="tela">
-			<span class="material-symbols-outlined">dashboard</span>
-			<h5>DASHBOARD</h5>
-		</a>
-		<a href="gerenciar.html" class="tela">
-			<span class="material-symbols-outlined">admin_panel_settings</span>
-			<h5>GERENCIAR</h5>
-		</a>
-		<a href="triar.html" class="tela">
-			<span class="material-symbols-outlined">pallet</span>
-			<h5>TRIAR</h5>
-		</a>
-		<a href="alocar.html" class="tela">
-			<span class="material-symbols-outlined">shelves</span>
-			<h5>ALOCAR</h5>
-		</a>
+	<div id="telas">
+		
+		
+		
 	</div>
 </div>
 
-<script src="1/functions.js" type="text/javascript" charset="utf-8" async defer></script>
 <script>	
+	var usuario = JSON.parse(localStorage.getItem("usuario")) || false;
+	if(usuario!=false){
+		document.getElementById("nome").innerHTML = usuario["nome"];
+		document.getElementById("matricula").innerHTML = usuario["matricula"];
 
-	if (localStorage.getItem("auth")){
-		console.log(localStorage.getItem("nome"));
-		//var nome = document.getElementById("nome").innerHTML = localStorage.getItem("user");
-		//var matricula = document.getElementById("matricula").innerHTML = matricula;
+		if(usuario["dashboard"]){
+			document.getElementById('telas').innerHTML += '<a href="dashboard.html" class="tela"><span class="material-symbols-outlined">dashboard</span><h5>DASHBOARD</h5></a>';
+		}
+
+		if(usuario["gerenciar"]){
+			document.getElementById('telas').innerHTML += 	'<a href="gerenciar.html" class="tela"><span class="material-symbols-outlined">admin_panel_settings</span><h5>GERENCIAR</h5></a>';
+		}
+
+		if(usuario["triagem"]){
+			document.getElementById('telas').innerHTML += 	'<a href="triar.html" class="tela"><span class="material-symbols-outlined">pallet</span><h5>TRIAGEM</h5></a>';
+		}
+	}else{
+		window.location.href = "index.html";
 	}
+	
 </script>
+<script src="1/functions.js" type="text/javascript" charset="utf-8" async defer></script>
 </body>
 </html>
