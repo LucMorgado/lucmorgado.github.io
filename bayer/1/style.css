@@ -11,11 +11,23 @@ body {
   background: linear-gradient(45deg, rgba(200,30,30,0.7) 0%,  rgba(40,60,130,0.7) 100%);
 }
 
+.bgRED{ background-color:red; }
+.bgGREEN{ background-color:GREEN; }
+.bgGREY{ background-color:GREY; }
+
+.center{
+  display: flex;
+  justify-content: center;
+}
+
 .txtcenter{
   text-align: center;
 }
-.txtCorBr { color:#fff }
-.txtCorPr { color:#000 }
+.txtCorBr { color:#fff; }
+.txtCorPr { color:#000; }
+.txtCorRed { color:red; }
+.txtCorGrey { color:grey; }
+.txtCorGreen { color:green; }
 
 .logo {
 	display: flex;
@@ -53,7 +65,7 @@ body {
     width: 320px;
 }
 
-.formCaixa input{
+.formCaixa input,.formCaixa select{
 	    width: 100%;
     height: 100%;
     border: 0;
@@ -343,6 +355,9 @@ button {padding: 10px 20px;
 
      .info1 h2 { font-size:4rem;text-align:center; }
 
+     .info1 h3 { font-size:1rem;text-align:left; }
+     .info1 h4 { font-size: 0.7rem;text-align:left; }
+
      .info1 h6 { font-size: 1rem; text-align:center;color:  white; }
 
 #lidas { padding-top:20px; }
@@ -366,3 +381,58 @@ button {padding: 10px 20px;
      .infoLida h4{
       font-size: 0.7rem;
      }
+
+
+.headRelatorio{
+  border-bottom: 1px solid #222;
+    display: flex;
+    justify-content: space-around;
+}
+
+.headRelatorio .material-symbols-outlined {
+  color: #000!important;
+}
+
+.headRelatorio a {
+  display: flex;
+    align-items: center;
+}
+
+.card2 {
+  display: flex;
+    flex-direction: row;
+    padding: 10px;
+    border-bottom: 1px solid grey;
+    justify-content: space-between;
+}
+
+.cover2 {
+  border-radius: 12px;
+    width: 24px;
+    height: 24px;
+    margin-right: 5px;
+}
+
+.cover2 .material-symbols-outlined{
+  font-size: 16px;
+  padding: 4px;
+}
+
+.info3 h5{
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+}
+
+.info4 {
+  display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.flexRow{
+  display: flex;
+    flex-direction: row;
+    align-items: center;
+}

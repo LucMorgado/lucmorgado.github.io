@@ -18,32 +18,32 @@
 				<span class="material-symbols-outlined">person</span>
 			</div>
 			<div>
-				<h2>Nome</h2>
-				<h3>0140000</h3>
+				<h2 id="nome">Nome</h2>
+				<h3 id="matricula">0140000</h3>
 			</div>
 		</div>
-		<div class="menu" onclick="drop()">
-			<span class="material-symbols-outlined">more_vert</span>
-			
-			<div id="dropmenu" class="bgDark" >
-				<a class="txtCorBr" href="home.html">				
-					<span class="material-symbols-outlined">home</span>INICIO
-				</a>
-				<a class="txtCorBr" href="index.html">				
-					<span class="material-symbols-outlined">logout</span>SAIR
-				</a>
-			</div>
+		<div class="menu">	
+			<a class="txtCorBr" href="home.html">				
+				<span class="material-symbols-outlined">home</span>
+			</a>
+			<a class="txtCorBr" href="index.html"  onclick="sair()">				
+				<span class="material-symbols-outlined">logout</span>
+			</a>
 		</div>
 	</header>
 	<h1 class="bgDark">ALOCAR</h1>
 	<div class="telas">
 		<div class="formCaixa">
 			<label class="txtCorPr" >LEIA A MASTER</label>
-			<input type="text" name="" autofocus onchange="alocar(this)">
+			<input type="number" autofocus onchange="localizador()" id="master">
+		</div>
+		<div class="formCaixa">
+			<label class="txtCorPr" >LOCALIZADOR</label>
+			<input type="number" onchange="alocar()" id="localizador">
 		</div>
 
 		<div>
-			<p id="msg"></p>
+			<p class="txtcenter" id="msg"></p>
 		</div>
 	</div>
 </div>
@@ -51,13 +51,89 @@
 
 <script type="text/javascript" charset="utf-8" async defer>
 	
-	function alocar(master){
+	var usuario = JSON.parse(localStorage.getItem("usuario")) || false;
+	if(usuario!=false && usuario["triagem"]){
+		document.getElementById("nome").innerHTML = usuario["nome"];
+		document.getElementById("matricula").innerHTML = usuario["matricula"];
+	}else{
+		window.location.href = "index.html";
+	}
 
-		document.getElementById('msg').innerHTML = "ÚLTIMA MASTER LIDA " +  master.value.toUpperCase();
+	var masters = JSON.parse(localStorage.getItem("tabelaMasters")) || [];
+
+	function localizador(){
+		document.getElementById('localizador').focus();
+	}
+
+	function alocar(){
+		var master = document.getElementById('master');
+		var localizador = document.getElementById('localizador');
+			if(master.value!="" && localizador.value.length==6){
+
+		var filtro = master.value.substr(0,2).toUpperCase();
+			var data = new Date();
+			var mes = data.getMonth() + 1;
+			mes = mes < 10 ? "0" + mes: mes;
+			var tempo = data.getDate() + "/" + mes + "/" + data.getFullYear() + " - " + data.getHours() + ":";
+			tempo += data.getMinutes() < 10 ? "0" + data.getMinutes() : data.getMinutes();
+
+			//checar se foi triada
+			var triada = false;
+			var indexMaster;
+			for(var m in masters){
+				if(master.value==masters[m]["master"]){
+					console.log("master triada");
+					triada = true;
+					indexMaster = m;
+				}
+			}
+			
+
+			var mlida;
+			if(triada){
+				mlida = {
+				"master": masters[indexMaster]["master"],
+				"usuarioTriagem": masters[indexMaster]["usuarioTriagem"],
+				"dataTriagem": masters[indexMaster]["dataTriagem"],
+				"alocada": true,
+				"usuarioAlocacao": usuario,
+				"dataAlocacao": tempo,
+				"localizador": localizador.value,
+				"divergencia": masters[indexMaster]["divergencia"],
+				"status": 0
+				}
+
+				masters[indexMaster] = mlida;
+			}else{
+				mlida = {
+				"master": master.value,
+				"usuarioTriagem": null,
+				"dataTriagem": null,
+				"alocada": true,
+				"usuarioAlocacao": usuario,
+				"dataAlocacao": tempo,
+				"localizador": localizador.value,
+				"divergencia": "Master não Triada",
+				"status": 1
+				}
+
+				masters.push(mlida);
+			}
+			
+			
+			localStorage.setItem("tabelaMasters", JSON.stringify(masters));
+			document.getElementById('msg').innerHTML = "ÚLTIMA MASTER LIDA " + master.value.toUpperCase();
 
 		master.value = "";
+		localizador.value = "";
+		master.focus();
+			}else{
+				document.getElementById('msg').innerHTML = "MASTER OU LOCALIZADOR INVÁLIDO";
+			}
 
-	}
+
+
+		}
 
 
 </script>

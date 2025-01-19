@@ -84,9 +84,12 @@
 		<div class="formCheck">
 			<label class="txtCorBr">ACESSOS</label>
 			<div class="checks">				
-			<div class="check"><input value="0" onchange="inputCheck(this)" type="checkbox" id="dash"><span class="txtCorPr material-symbols-outlined">dashboard</span><h5>DASHBOARD</h5></div>
-			<div class="check"><input value="1" onchange="inputCheck(this)" type="checkbox" id="admin"><span class="txtCorPr material-symbols-outlined">admin_panel_settings</span><h5>GERENCIAR</h5></div>
-			<div class="check"><input value="2" onchange="inputCheck(this)" checked="true" type="checkbox" id="triagem"><span class="txtCorPr material-symbols-outlined">pallet</span><h5>TRIAGEM</h5></div>
+			<div class="check"><input onchange="inputCheck(this)" type="checkbox" id="dash"><span class="txtCorPr material-symbols-outlined">dashboard</span><h5>DASHBOARD</h5></div>
+			<div class="check"><input onchange="inputCheck(this)" type="checkbox" id="admin"><span class="txtCorPr material-symbols-outlined">admin_panel_settings</span><h5>GERENCIAR</h5></div>
+			<div class="check"><input onchange="inputCheck(this)" checked="true" type="checkbox" id="triagem"><span class="txtCorPr material-symbols-outlined">pallet</span><h5>TRIAGEM</h5></div>
+			<div class="check"><input onchange="inputCheck(this)" type="checkbox" id="divergencia"><span class="txtCorPr material-symbols-outlined">error</span><h5>DIVERGÊNCIA</h5></div>
+			<div class="check"><input onchange="inputCheck(this)" type="checkbox" id="alocar"><span class="txtCorPr material-symbols-outlined">storage</span><h5>ALOCAR</h5></div>
+			<div class="check"><input onchange="inputCheck(this)" type="checkbox" id="relatorio"><span class="txtCorPr material-symbols-outlined">tune</span><h5>RELATÓRIO</h5></div>
 			</div>			
 		</div>
 		<div class="btSend">
@@ -136,6 +139,9 @@ var usuario = JSON.parse(localStorage.getItem("usuario")) || false;
 		var dash = document.getElementById('dash');
 		var admin = document.getElementById('admin');
 		var triagem = document.getElementById('triagem');
+		var divergencia = document.getElementById('divergencia');
+		var alocar = document.getElementById('alocar');
+		var relatorio = document.getElementById('relatorio');
 
 		if(matricula.value == "" || nome.value == "" || senha.value == ""){
 			alert("Preencha todos campos do usuario");
@@ -156,7 +162,10 @@ var usuario = JSON.parse(localStorage.getItem("usuario")) || false;
 		"senha": senha.value,
 		"dashboard": dash.checked,
 		"gerenciar": admin.checked,
-		"triagem": triagem.checked
+		"triagem": triagem.checked,
+		"divergencia": divergencia.checked,
+		"alocar": alocar.checked,
+		"relatorio": relatorio.checked
 
 		};
 
@@ -180,9 +189,15 @@ var usuario = JSON.parse(localStorage.getItem("usuario")) || false;
 		dash.checked = false;
 		admin.checked = false;
 		triagem.checked = true;
+		alocar.checked = false;
+		divergencia.checked = false;
+		relatorio.checked = false;
 		inputCheck(dash);
 		inputCheck(admin);
 		inputCheck(triagem);
+		inputCheck(alocar);
+		inputCheck(relatorio);
+		inputCheck(divergencia);
 		document.getElementById('modalNovo').style = "display:none";
 		listaDeUsuarios();
 

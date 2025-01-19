@@ -6,7 +6,10 @@ const usuarios = [
 		"senha": "123",
 		"dashboard": true,
 		"gerenciar": true,
-		"triagem": true
+		"triagem": true,
+		"alocar": true,
+		"divergencia": true,
+		"relatorio": true
 
 	}
 

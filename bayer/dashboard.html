@@ -34,12 +34,23 @@
 	<h1 class="bgDark">DASHBOARD</h1>
 	<div class="dash">
 		<div class="info1 bgGrad" onclick="atualizar();">
-			<h2 id="totalMasters">256</h2>
-			<h6>MASTERS TRIADA(S)</h6>	
+			<h2 id="totalMasters">0</h2>
+			<h6>MASTERS LIDAS</h6>	
 			<p class="txtcenter txtCorBr atualizacao">ULTIMA ATUALIZAÇÃO <b id="hora"></b></p>
+		</div>	
+		<div class="info1">
+			<h2 id="totalAlocadas">0</h2>
+			<h6>MASTERS ALOCADAS</h6>
+		</div>	
+		<div class="info1">
+			<h2 id="totalPendencia">0</h2>
+			<h6>MASTERS PENDENTES</h6>
+		</div>
+		<div class="info1">
+			<h2 id="totalDivergente">0</h2>
+			<h6>MASTERS COM DIVERGÊNCIA</h6>
 		</div>			
 		<div class="info1" id="top"></div>
-
 		<div class="info1">
 			<h3 class="txtCorBr txtcenter">ULTIMAS MASTERS LIDAS</h3>
 			<div id="lidas"></div>
@@ -60,66 +71,105 @@ function atualizar(){
 	var masters = JSON.parse(localStorage.getItem("tabelaMasters")) || [];
 
 	document.getElementById('totalMasters').innerHTML = masters.length;
+
 	var data = new Date();
 	var minutos = data.getMinutes()<10 ? "0" + data.getMinutes() : data.getMinutes();
-	document.getElementById('hora').innerHTML = data.getHours() + ":" + minutos;
+	var horaAtu =  data.getHours() + ":" + minutos;
+	document.getElementById('hora').innerHTML = horaAtu;
 	
-
-	var ranking = [];
-	for(var j in masters){
-		var mat = masters[j]["usuario"]["matricula"];
-		var nom = masters[j]["usuario"]["nome"];
-		var total = 1;
-		for(var k in ranking){
-			if(ranking[k]["matricula"] == mat){
-				ranking[k]["total"] += 1 ;
-				total++;
-			}
+	masters.sort(function (a,b){ //ordenar por data
+		if(a.dataTriagem > b.dataTriagem){
+			return -1;
 		}
-		if(total==1){
-		ranking.push({
-				"nome": nom,
-				"matricula": mat,
-				"total": total
-			});
-	}
+		if(a.dataTriagem < b.dataTriagem){
+			return 1;
+		}
+		return 0;
+	});
+
+	var alocadas = 0, pendente = 0, ultLidas = 0, divergente = 0;
+	var ranking = [], lidas = document.getElementById('lidas');
+	lidas.innerHTML = "";
+	for(var j in masters){
+	//contar alocadas
+		if(masters[j]["alocada"]){
+			alocadas++;
+		}else{
+			pendente++;
+		}
+
+		if(masters[j]["divergencia"] != false){
+			divergente++;
+		}
+		document.getElementById('totalAlocadas').innerHTML = alocadas;
+		document.getElementById('totalPendencia').innerHTML = pendente;
+		document.getElementById('totalDivergente').innerHTML = divergente;
+
+
+		var data = masters[j]["dataTriagem"];
+		if(masters[j]["status"]==0 && ultLidas<10){//status 0 = triado
+			lidas.innerHTML += estruturaLidas(masters[j]["master"], masters[j]["usuarioTriagem"]["nome"], data);
+			ultLidas++;
+		}
+
+
+		//definir ranking
+		if(masters[j]["usuarioTriagem"]!=null){
+			var rank = {
+				"nome": masters[j]["usuarioTriagem"]["nome"],
+				"matricula": masters[j]["usuarioTriagem"]["matricula"],
+				"total": 1
+			}
+			ranking.push(rank);
+		}
 		
 	}
 
-	console.log("ranking");
 	console.log(ranking);
-	console.log("ranking");
+	var novo = [];
+	for(var r in ranking){
+		var tem =false;
+		for(var n in novo){
+			if(ranking[r]["nome"] == novo[n]["nome"]){
+				novo[n]["total"]++;
+				tem = true;
+			}
+		}
+		if(!tem){
+			var no = {
+				"nome": ranking[r]["nome"],
+				"matricula": ranking[r]["matricula"],
+				"total": 1
+			}
+			novo.push(no);
+		}
+	}
+	ranking = novo;
+	ranking.sort(function (a,b){ //ordenar por data
+		if(a.total > b.total){
+			return -1;
+		}
+		if(a.total < b.total){
+			return 1;
+		}
+		return 0;
+	});
+	console.log(ranking);
+
 
 
 	var top = document.getElementById('top');
 	top.innerHTML = '<h3 class="txtcenter">TOP 3</h3>';
-	if(ranking.length<3){
-		top.innerHTML = '<h3 class="txtcenter">RANKING INDISPONIVEL</h3>';
-	}else{
+	//if(ranking.length<3){
+	//	top.innerHTML = '<h3 class="txtcenter">RANKING INDISPONIVEL</h3>';
+	//}else{
 		for(var i = 0;i<3;i++){
+			if(ranking[i]){
 			 top.innerHTML += estruturaTop(ranking[i]["nome"], ranking[i]["matricula"], ranking[i]["total"]);
-		}
-	}
-
-		masters.sort(function (a,b){ //ordenar por data
-			if(a.data > b.data){
-				return -1;
 			}
-			if(a.data < b.data){
-				return 1;
-			}
-			return 0;
-		});
-
-	console.log(masters);
-	var lidas = document.getElementById('lidas');
-	lidas.innerHTML = "";
-	if(masters.length>0){
-		for(var i in masters){
-			var data = masters[i]["data"];
-			lidas.innerHTML += estruturaLidas(masters[i]["master"], masters[i]["usuario"]["nome"], data);
 		}
-	}
+	//}
+
 }
 
 function estruturaTop(nome, matricula, total){
@@ -131,7 +181,7 @@ return 	'<div class="info2">'
 +	'		</div>'
 +	'		<div>'
 +	'			<h3>'+ nome +'</h3>'
-+	'			<h6 class="txtCorBr">' + matricula +'</h6>'
++	'			<h4 class="txtCorBr">' + matricula +'</h6>'
 +	'		</div>	'
 +	'	</div>'
 +	'	<div class="totalTriagem">'

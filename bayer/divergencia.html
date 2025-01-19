@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>BAYER | TRIAR</title>
+	<title>BAYER | DIVERGÊNCIA</title>
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
@@ -35,7 +35,23 @@
 	<div class="telas">
 		<div class="formCaixa">
 			<label class="txtCorPr" for="">LEIA A MASTER</label>
-			<input type="text" autofocus onchange=" triar(this)">
+			<input type="text" name="m" autofocus id="master">
+		</div>
+		<div class="formCaixa">
+			<label class="txtCorPr" for="">DIVERGÊNCIA</label>
+			<select type="text" name="d" id="divergencia">
+				<option value="0">Selecione uma divergência</option>
+				<option value="1">Divergência 01</option>
+				<option value="2">Divergência 02</option>
+				<option value="3">Divergência 03</option>
+			</select>
+		</div>
+		<div class="formCaixa">
+			<label class="txtCorPr" for="">LOCALIZADOR</label>
+			<input type="text" name="l" id="localizador">
+		</div>
+		<div class="center">
+			<button onclick="divergencia()" type="">REGISTRAR DIVERGÊNCIA</button>
 		</div>
 
 		<div>
@@ -56,37 +72,80 @@
 
 	var masters = JSON.parse(localStorage.getItem("tabelaMasters")) || [];
 
-	function triar(master){
-			if(master.value!=""){
+	function divergencia(){
+		
+		var master = document.getElementById('master');
+		var divergencia = document.getElementById('divergencia');
+		var localizador = document.getElementById('localizador');
+		if(master.value!="" && localizador.value.length==6 && divergencia.value!=0){
+
+			console.log("Registrar divergencia");
 
 		var filtro = master.value.substr(0,2).toUpperCase();
 			var data = new Date();
 			var mes = data.getMonth() + 1;
-			mes = mes < 10 ? "0"+mes: mes;
+			mes = mes < 10 ? "0" + mes: mes;
 			var tempo = data.getDate() + "/" + mes + "/" + data.getFullYear() + " - " + data.getHours() + ":";
 			tempo += data.getMinutes() < 10 ? "0" + data.getMinutes() : data.getMinutes();
-			
-			const mlida = {
+
+			//checar se master foi registrada
+			var existe = false;
+			var indexMaster;
+			for(var m in masters){
+				if(master.value==masters[m]["master"]){
+					console.log("master existe");
+					existe = true;
+					indexMaster = m;
+				}
+			}
+
+			var mlida;
+			if(existe){
+				mlida = {
+				"master": masters[indexMaster]["master"],
+				"usuarioTriagem": masters[indexMaster]["usuarioTriagem"],
+				"dataTriagem": masters[indexMaster]["dataTriagem"],
+				"alocada": masters[indexMaster]["alocada"],
+				"usuarioAlocacao": masters[indexMaster]["usuarioAlocacao"],
+				"dataAlocacao": masters[indexMaster]["dataAlocacao"],
+				"localizador": localizador.value,
+				"divergencia": divergencia.value,
+				"status": 2
+				};
+
+				masters[indexMaster] = mlida;
+			}else{
+				mlida = {
 				"master": master.value,
-				"usuarioTriagem": usuario,
-				"dataTriagem": tempo,
+				"usuarioTriagem": null,
+				"dataTriagem": null,
 				"alocada": false,
 				"usuarioAlocacao": null,
 				"dataAlocacao": null,
-				"localizador": null,
-				"divergencia": false,
-				"status": 0
-			};
+				"localizador": localizador.value,
+				"divergencia": divergencia.value,
+				"status": 2
+				};
+
+				masters.push(mlida);
+			}
+			console.log(masters);
 			
-			masters.push(mlida);
+			
+			
 			localStorage.setItem("tabelaMasters", JSON.stringify(masters));
 			document.getElementById('msg').innerHTML = "ÚLTIMA MASTER LIDA " + master.value.toUpperCase();
 
+
 		master.value = "";
+		localizador.value = "";
+		master.focus();
+			}else{
+				document.getElementById('msg').innerHTML = "DADOS INVÁLIDOS";
+				master.focus();
 			}
 
-
-		}
+}
 
 	
 </script>
