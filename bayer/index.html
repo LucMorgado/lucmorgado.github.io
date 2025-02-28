@@ -60,10 +60,10 @@
 		var senha 		= document.getElementById('senha').value;
 		var liberado = false;
 
-		getDados("auth", "msg");
-		//console.log("Tentar logar com matricula " + matricula + " e senha " + senha);
+		//getDados("auth", "msg");
+		console.log("Tentar logar com matricula " + matricula + " e senha " + senha);
 		//versao offline
-		/*
+		
 		var tabelaUsuarios = JSON.parse(localStorage.getItem("tabelaUsuarios")) || usuarios;
 		alert(tabelaUsuarios[0]["matricula"] + " e " + tabelaUsuarios[0]["senha"]);
 
@@ -82,7 +82,6 @@
 
 		document.getElementById("msg").innerHTML = "USUARIO OU SENHA INCORRETO";
 		}
-		*/
 		
 	}
 
