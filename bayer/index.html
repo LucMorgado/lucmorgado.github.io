@@ -9,6 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="1/style.css">
 	<script src="1/usuarios.js?v=2" type="text/javascript" charset="utf-8" ></script>
+	<script src="1/ajax.js" type="text/javascript" charset="utf-8"></script>
 </head>
 <body class="bgDark">
 <div class="container">
@@ -58,8 +59,12 @@
 		var matricula 	= document.getElementById('matricula').value;
 		var senha 		= document.getElementById('senha').value;
 		var liberado = false;
-		console.log("Tentar logar com matricula " + matricula + " e senha " + senha);
 
+		getDados("auth", "msg");
+		alert("ok2");
+		//console.log("Tentar logar com matricula " + matricula + " e senha " + senha);
+		//versao offline
+		/*
 		var tabelaUsuarios = JSON.parse(localStorage.getItem("tabelaUsuarios")) || usuarios;
 		alert(tabelaUsuarios[0]["matricula"] + " e " + tabelaUsuarios[0]["senha"]);
 
@@ -78,6 +83,7 @@
 
 		document.getElementById("msg").innerHTML = "USUARIO OU SENHA INCORRETO";
 		}
+		*/
 		
 	}
 
@@ -87,6 +93,7 @@
 
 
 </script>
+
 
 </body>
 </html>
