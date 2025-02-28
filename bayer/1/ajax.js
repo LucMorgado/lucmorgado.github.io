@@ -1,42 +1,15 @@
-        alert("ok");
-
 /**
-  * Função para criar um objeto XMLHTTPRequest
-  */
- function CriaRequest() {
-     try{
-         request = new XMLHttpRequest();
-     }catch (IEAtual){
-
-         try{
-             request = new ActiveXObject("Msxml2.XMLHTTP");
-         }catch(IEAntigo){
-
-             try{
-                 request = new ActiveXObject("Microsoft.XMLHTTP");
-             }catch(falha){
-                 request = false;
-             }
-         }
-     }
-
-     if (!request)
-         alert("Seu Navegador não suporta Ajax!");
-     else
-         return request;
- }
-
- /**
   * Função para enviar os dados
   */
 
  function getDados(funcao, id) {
      // Declaração de Variáveis
      var result = document.getElementById(id);
-     var xmlreq = CriaRequest();
+     var xmlreq = new XMLHttpRequest();
 
      // Iniciar uma requisição
-     xmlreq.open("GET", "http://localhost/externo/controleUsuarios.php?funcao=" + funcao, true);
+     xmlreq.open("GET", "https://localtintas.com.br/bayer/controle.php?funcao=" + funcao, true);
+     xmlreq.setRequestHeader('Content-Type', 'application/xml');
 
      // Atribui uma função para ser executada sempre que houver uma mudança de ado
      xmlreq.onreadystatechange = function(){
