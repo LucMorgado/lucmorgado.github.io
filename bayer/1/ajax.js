@@ -9,8 +9,8 @@
 
      // Iniciar uma requisição
      xmlreq.open("GET", "https://localtintas.com.br/bayer/controle.php?funcao=" + funcao, true);
-     xmlreq.setRequestHeader('Content-Type', 'application/xml');
 
+    xmlreq.setRequestHeader("Access-Control-Allow-Origin", "*");
      // Atribui uma função para ser executada sempre que houver uma mudança de ado
      xmlreq.onreadystatechange = function(){
 
