@@ -51,37 +51,39 @@
 </div>
 
 <script src="1/functions.js" type="text/javascript" charset="utf-8" async defer></script>
-<script src="1/ajax.js" type="text/javascript" charset="utf-8" async defer></script>
+<script src="1/firebase.js" type="module"></script>
 
 <script>
 	
+	auth();
 	function auth(){
 		var matricula 	= document.getElementById('matricula').value;
 		var senha 		= document.getElementById('senha').value;
 		var liberado = false;
 
-		//getDados("auth", "msg");
-		console.log("Tentar logar com matricula " + matricula + " e senha " + senha);
+
+
+		//console.log("Tentar logar com matricula " + matricula + " e senha " + senha);
 		//versao offline
 		
-		var tabelaUsuarios = JSON.parse(localStorage.getItem("tabelaUsuarios")) || usuarios;
-		alert(tabelaUsuarios[0]["matricula"] + " e " + tabelaUsuarios[0]["senha"]);
-
-		for(var i in tabelaUsuarios){
-			if (matricula==tabelaUsuarios[i]["matricula"] && senha==tabelaUsuarios[i]["senha"]) {
-				console.log(tabelaUsuarios[i]["nome"]);
-				localStorage.setItem("usuario", JSON.stringify(tabelaUsuarios[i]));
-				liberado = true;
-
-			}
-		}
-
-		if(liberado){
-				window.location.href = "home.html";
-		}else{
-
-		document.getElementById("msg").innerHTML = "USUARIO OU SENHA INCORRETO";
-		}
+//		var tabelaUsuarios = JSON.parse(localStorage.getItem("tabelaUsuarios")) || usuarios;
+//		alert(tabelaUsuarios[0]["matricula"] + " e " + tabelaUsuarios[0]["senha"]);
+//
+//		for(var i in tabelaUsuarios){
+//			if (matricula==tabelaUsuarios[i]["matricula"] && senha==tabelaUsuarios[i]["senha"]) {
+//				console.log(tabelaUsuarios[i]["nome"]);
+//				localStorage.setItem("usuario", JSON.stringify(tabelaUsuarios[i]));
+//				liberado = true;
+//
+//			}
+//		}
+//
+//		if(liberado){
+//				window.location.href = "home.html";
+//		}else{
+//
+//		document.getElementById("msg").innerHTML = "USUARIO OU SENHA INCORRETO";
+//		}
 		
 	}
 
