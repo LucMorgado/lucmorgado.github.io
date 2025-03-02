@@ -36,7 +36,7 @@
 </div>
 
 <script>	
-	var usuario = JSON.parse(localStorage.getItem("usuario")) || false;
+	var usuario = JSON.parse(sessionStorage.getItem("usuario")) || false;
 	if(usuario!=false){
 		document.getElementById("nome").innerHTML = usuario["nome"];
 		document.getElementById("matricula").innerHTML = usuario["matricula"];
@@ -58,7 +58,7 @@
 		if(usuario["alocar"]){
 			document.getElementById('telas').innerHTML += 	'<a href="alocar.html" class="tela"><span class="material-symbols-outlined">storage</span><h5>ALOCAR</h5></a>';
 		}
-		if(usuario["relatorio"]){
+		if(usuario["relatorios"]){
 			document.getElementById('telas').innerHTML += 	'<a href="relatorio.html" class="tela"><span class="material-symbols-outlined">tune</span><h5>RELATÓRIO</h5></a>';
 		}
 	}else{

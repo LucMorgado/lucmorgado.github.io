@@ -1,4 +1,3 @@
-
 <html>
 <head>
 	<meta charset="utf-8">
@@ -102,7 +101,7 @@
 
 <script type="text/javascript" charset="utf-8">
 
-var usuario = JSON.parse(localStorage.getItem("usuario")) || false;
+	var usuario = JSON.parse(sessionStorage.getItem("usuario")) || false;
 	if(usuario!=false && usuario["gerenciar"]){
 		document.getElementById("usuarioNome").innerHTML = usuario["nome"];
 		document.getElementById("usuarioMatricula").innerHTML = usuario["matricula"];
@@ -130,7 +129,6 @@ var usuario = JSON.parse(localStorage.getItem("usuario")) || false;
 		document.getElementById(id).style = "display:block";
 	}
 
-
 	function novoUsuario(){
 		console.log("Criando novo usuario");
 		var matricula = document.getElementById('matricula');
@@ -146,14 +144,14 @@ var usuario = JSON.parse(localStorage.getItem("usuario")) || false;
 		if(matricula.value == "" || nome.value == "" || senha.value == ""){
 			alert("Preencha todos campos do usuario");
 		}else{
-
-		console.log("Cadastrando o " + nome.value + " com a matricula(" + matricula.value + ") e a senha: " + senha.value);
-		if(dash.value=="0"){
-			console.log("Acesso a Dash");}
-		if(admin=="0"){
-			console.log("Acesso ao gerenciar");}
-		if(triagem.value=="0"){
-			console.log("Acesso a triagem");}
+			console.log("Cadastrando o " + nome.value + " com a matricula(" + matricula.value + ") e a senha: " + senha.value);
+			if(dash.value=="0"){
+				console.log("Acesso a Dash");}
+			if(admin=="0"){
+				console.log("Acesso ao gerenciar");}
+			if(triagem.value=="0"){
+				console.log("Acesso a triagem");}
+		}		
 
 	
 		const usuario = {
@@ -165,24 +163,31 @@ var usuario = JSON.parse(localStorage.getItem("usuario")) || false;
 		"triagem": triagem.checked,
 		"divergencia": divergencia.checked,
 		"alocar": alocar.checked,
-		"relatorio": relatorio.checked
+		"relatorios": relatorio.checked
 
 		};
 
+		usuario['funcao'] = "novoUsuario";
 		console.log(usuario);
+		const dbParam = JSON.stringify(usuario);
+		const xmlhttp = new XMLHttpRequest();
+		xmlhttp.onload = function() {
+			const myObj = JSON.parse(this.responseText);
+		  	console.log(myObj);
+		  	if(myObj.length == 2){
+		  		document.getElementById("msg").style = "color:" + myObj[1];
+				document.getElementById("msg").innerHTML = myObj[0];
+			}
 
-		var listaUsuarios = JSON.parse(localStorage.getItem("tabelaUsuarios")) || [];
-		console.log(listaUsuarios);
-		listaUsuarios.push(usuario);
+			listaDeUsuarios();
+		}
+		xmlhttp.open("POST", "http://localhost/externo/controle.php");
+		xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		xmlhttp.send("x=" + dbParam);
 
-
-		localStorage.setItem("tabelaUsuarios", JSON.stringify(listaUsuarios));
 
 		alert(usuario["nome"] + " cadastrado com sucesso!");
 
-		console.log(JSON.parse(localStorage.getItem("tabelaUsuarios")));
-
-		console.log("Limpando inputs");
 		matricula.value = "";
 		nome.value = "";
 		senha.value = "";
@@ -198,10 +203,7 @@ var usuario = JSON.parse(localStorage.getItem("usuario")) || false;
 		inputCheck(alocar);
 		inputCheck(relatorio);
 		inputCheck(divergencia);
-		document.getElementById('modalNovo').style = "display:none";
-		listaDeUsuarios();
-
-	}
+		document.getElementById('modalNovo').style = "display:none";	
 	}
 
 
@@ -210,21 +212,34 @@ var usuario = JSON.parse(localStorage.getItem("usuario")) || false;
 	function listaDeUsuarios(){
 		console.log("listar usuarios");
 
-		var lista = JSON.parse(localStorage.getItem("tabelaUsuarios")) || [];
-
-		console.log(lista);
+		const dbParam = JSON.stringify({"funcao": "listarUsuarios"});
+		const xmlhttp = new XMLHttpRequest();
+		xmlhttp.onload = function() {
+			console.log("Carregou");
+		  const myObj = JSON.parse(this.responseText);
+		  console.log(myObj);
+		  if(myObj.length == 2){
+		  	document.getElementById("msg").style = "color:" + myObj[1];
+			document.getElementById("msg").innerHTML = myObj[0];
+		  }else{
+		  	sessionStorage.setItem("tabelaUsuarios", this.response);
+		  	var lista = JSON.parse(sessionStorage.getItem("tabelaUsuarios")) || [];
 			var divUsuarios = document.getElementById('listaUsuarios');
-		divUsuarios.innerHTML = "";
+			divUsuarios.innerHTML = "";
 
-		for(var i in lista){
-			divUsuarios.innerHTML += estruturaUsuario(lista[i]["nome"],lista[i]["matricula"]);
+			for(var i in lista){
+				divUsuarios.innerHTML += estruturaUsuario(lista[i]["nome"],lista[i]["matricula"]);
+			}
+		  }
 		}
-
+		xmlhttp.open("POST", "http://localhost/externo/controle.php");
+		xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		xmlhttp.send("x=" + dbParam);
+		
 	}
 
-
 function estruturaUsuario(nome, matricula){
-	return '<div class="usuario">				'
+	return '<div class="usuario">'
 + '	<div class="card">		'
 + '		<div class="cover">'
 + '			<span class="material-symbols-outlined">person</span>'

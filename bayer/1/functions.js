@@ -16,5 +16,5 @@
 
 
 function sair(){
-	localStorage.removeItem("usuario");
+	sessionStorage.clear();
 }
