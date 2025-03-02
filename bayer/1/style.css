@@ -2,6 +2,7 @@
 a { text-decoration:none; }
 body {
   font-family: "Montserrat", sans-serif;
+  background-color: #ddd;
 }
 .msg { text-align:center; }
 .bgDark {

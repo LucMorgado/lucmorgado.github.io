@@ -18,8 +18,8 @@
 				<span class="material-symbols-outlined">person</span>
 			</div>
 			<div>
-				<h2 id="nome">Nome</h2>
-				<h3 id="matricula">0140000</h3>
+				<h2 id="usuarioNome">Nome</h2>
+				<h3 id="usuarioMatricula">0140000</h3>
 			</div>
 		</div>
 		<div class="menu">	
@@ -46,44 +46,41 @@
 
 
 <script type="text/javascript" charset="utf-8" async defer>
-	var usuario = JSON.parse(localStorage.getItem("usuario")) || false;
-	if(usuario!=false && usuario["triagem"]){
-		document.getElementById("nome").innerHTML = usuario["nome"];
-		document.getElementById("matricula").innerHTML = usuario["matricula"];
+	var usuario = JSON.parse(sessionStorage.getItem("usuario")) || false;
+	if(usuario!=false && usuario["gerenciar"]){
+		document.getElementById("usuarioNome").innerHTML = usuario["nome"];
+		document.getElementById("usuarioMatricula").innerHTML = usuario["matricula"];
 	}else{
 		window.location.href = "index.html";
 	}
 
-	var masters = JSON.parse(localStorage.getItem("tabelaMasters")) || [];
-
 	function triar(master){
-			if(master.value!=""){
-
-		var filtro = master.value.substr(0,2).toUpperCase();
-			var data = new Date();
-			var mes = data.getMonth() + 1;
-			mes = mes < 10 ? "0"+mes: mes;
-			var tempo = data.getDate() + "/" + mes + "/" + data.getFullYear() + " - " + data.getHours() + ":";
-			tempo += data.getMinutes() < 10 ? "0" + data.getMinutes() : data.getMinutes();
-			
+		if(master.value!="" && master.value.substr(0,2).toUpperCase() == "PL"){			
 			const mlida = {
-				"master": master.value,
-				"usuarioTriagem": usuario,
-				"dataTriagem": tempo,
-				"alocada": false,
-				"usuarioAlocacao": null,
-				"dataAlocacao": null,
-				"localizador": null,
-				"divergencia": false,
-				"status": 0
+				"master": master.value.toUpperCase(),
+				"usuario": usuario['id'],
+				"divergencia": '',
+				"funcao": "novaTriagem"
 			};
-			
-			masters.push(mlida);
-			localStorage.setItem("tabelaMasters", JSON.stringify(masters));
-			document.getElementById('msg').innerHTML = "ÚLTIMA MASTER LIDA " + master.value.toUpperCase();
-
-		master.value = "";
+			const dbParam = JSON.stringify(mlida);
+			const xmlhttp = new XMLHttpRequest();
+			xmlhttp.onload = function() {
+				const myObj = JSON.parse(this.responseText);
+			  	//console.log(myObj);
+			  	if(myObj.length == 2){
+			  		document.getElementById("msg").style = "color:" + myObj[1];
+					document.getElementById("msg").innerHTML = myObj[0].toUpperCase();
+				}
 			}
+			xmlhttp.open("POST", "http://localhost/externo/controle.php");
+			xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+			xmlhttp.send("x=" + dbParam);
+			//document.getElementById('msg').innerHTML = "ÚLTIMA MASTER LIDA " + master.value.toUpperCase();
+			master.value = "";
+
+		}else{
+			alert("MASTER INFORMADA INVÁLIDA");
+		}
 
 
 		}

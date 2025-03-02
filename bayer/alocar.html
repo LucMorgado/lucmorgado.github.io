@@ -35,12 +35,15 @@
 	<div class="telas">
 		<div class="formCaixa">
 			<label class="txtCorPr" >LEIA A MASTER</label>
-			<input type="number" autofocus onchange="localizador()" id="master">
+			<input type="text" autofocus onchange="localizador()" id="master">
 		</div>
 		<div class="formCaixa">
 			<label class="txtCorPr" >LOCALIZADOR</label>
 			<input type="number" onchange="alocar()" id="localizador">
 		</div>
+		<div class="center">
+			<button onclick="alocar()">ALOCAR</button>
+		</div>	
 
 		<div>
 			<p class="txtcenter" id="msg"></p>
@@ -59,8 +62,6 @@
 		window.location.href = "index.html";
 	}
 
-	var masters = JSON.parse(localStorage.getItem("tabelaMasters")) || [];
-
 	function localizador(){
 		document.getElementById('localizador').focus();
 	}
@@ -68,69 +69,36 @@
 	function alocar(){
 		var master = document.getElementById('master');
 		var localizador = document.getElementById('localizador');
-			if(master.value!="" && localizador.value.length==6){
 
-		var filtro = master.value.substr(0,2).toUpperCase();
-			var data = new Date();
-			var mes = data.getMonth() + 1;
-			mes = mes < 10 ? "0" + mes: mes;
-			var tempo = data.getDate() + "/" + mes + "/" + data.getFullYear() + " - " + data.getHours() + ":";
-			tempo += data.getMinutes() < 10 ? "0" + data.getMinutes() : data.getMinutes();
-
-			//checar se foi triada
-			var triada = false;
-			var indexMaster;
-			for(var m in masters){
-				if(master.value==masters[m]["master"]){
-					console.log("master triada");
-					triada = true;
-					indexMaster = m;
-				}
-			}
+		if(master.value!="" && localizador.value!="" && master.value.substr(0,2).toUpperCase() == "PL"){
 			
-
-			var mlida;
-			if(triada){
-				mlida = {
-				"master": masters[indexMaster]["master"],
-				"usuarioTriagem": masters[indexMaster]["usuarioTriagem"],
-				"dataTriagem": masters[indexMaster]["dataTriagem"],
-				"alocada": true,
-				"usuarioAlocacao": usuario,
-				"dataAlocacao": tempo,
+			const mlida = {
+				"master": master.value.toUpperCase(),
+				"usuario": usuario['id'],
 				"localizador": localizador.value,
-				"divergencia": masters[indexMaster]["divergencia"],
-				"status": 0
+				"funcao": "novaAlocacao"
+			};
+			const dbParam = JSON.stringify(mlida);
+			const xmlhttp = new XMLHttpRequest();
+			xmlhttp.onload = function() {
+				const myObj = JSON.parse(this.responseText);
+			  	//console.log(myObj);
+			  	if(myObj.length == 2){
+			  		document.getElementById("msg").style = "color:" + myObj[1];
+					document.getElementById("msg").innerHTML = myObj[0].toUpperCase();
 				}
-
-				masters[indexMaster] = mlida;
-			}else{
-				mlida = {
-				"master": master.value,
-				"usuarioTriagem": null,
-				"dataTriagem": null,
-				"alocada": true,
-				"usuarioAlocacao": usuario,
-				"dataAlocacao": tempo,
-				"localizador": localizador.value,
-				"divergencia": "Master não Triada",
-				"status": 1
-				}
-
-				masters.push(mlida);
+				master.value = "";
+				localizador.value = "";
+				master.focus();
 			}
-			
-			
-			localStorage.setItem("tabelaMasters", JSON.stringify(masters));
-			document.getElementById('msg').innerHTML = "ÚLTIMA MASTER LIDA " + master.value.toUpperCase();
-
-		master.value = "";
-		localizador.value = "";
-		master.focus();
-			}else{
-				document.getElementById('msg').innerHTML = "MASTER OU LOCALIZADOR INVÁLIDO";
-			}
-
+			xmlhttp.open("POST", "http://localhost/externo/controle.php");
+			xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+			xmlhttp.send("x=" + dbParam);
+		
+		}else{
+			alert("MASTER OU LOCALIZADOR INVÁLIDO");
+			master.focus();
+		}
 
 
 		}
