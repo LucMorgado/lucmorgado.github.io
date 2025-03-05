@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="estilo.css">
+	<title>BUSCA</title>
+</head>
+<body>
+
+	<div class="app">
+		<header>
+			<div class="info">
+				<h1 id="codigo">00000</h1>
+				<h4 id="descricao">Descrição do Produto</h4>
+				<h2 id="picking">Picking do Produto</h2>
+			</div>
+			<div class="mapa">
+				<div class="d0">
+					<p class="tituloMapa">D0</p>
+					<p class="valorMapa" id="valorMapaD0">10</p>
+				</div>
+				<div class="d1">
+					<p class="tituloMapa">D1</p>
+					<p class="valorMapa" id="valorMapaD1">10</p>
+				</div>
+				<div class="mapaTotal">
+					<p class="tituloMapa">TOTAL</p>
+					<p class="valorMapa" id="valorMapaTotal">20</p>
+				</div>
+			</div>
+		</header>
+		<div class="saldo">
+			<table>
+				<thead>
+					<tr>
+						<th>ENDEREÇO</th>
+						<th>COD.LOC</th>
+						<th>SALDO</th>
+					</tr>
+				</thead>
+				<tbody id="listaSaldo">
+					<tr><td colspan="3">DIGITE O CODIGO</td></tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<footer id="teclado">
+			<div class="tecladoLinha">
+				<div class="tecla"><button onclick="teclado(this.value)" value="1">1</button></div>
+				<div class="tecla"><button onclick="teclado(this.value)" value="2">2</button></div>
+				<div class="tecla"><button onclick="teclado(this.value)" value="3">3</button></div>
+			</div>
+			<div class="tecladoLinha">
+				<div class="tecla"><button onclick="teclado(this.value)" value="4">4</button></div>
+				<div class="tecla"><button onclick="teclado(this.value)" value="5">5</button></div>
+				<div class="tecla"><button onclick="teclado(this.value)" value="6">6</button></div>
+			</div>
+			<div class="tecladoLinha">
+				<div class="tecla"><button onclick="teclado(this.value)" value="7">7</button></div>
+				<div class="tecla"><button onclick="teclado(this.value)" value="8">8</button></div>
+				<div class="tecla"><button onclick="teclado(this.value)" value="9">9</button></div>
+			</div>
+			<div class="tecladoLinha">
+				<div class="tecla"><button id="apagar" onclick="apagar()" value="APAGAR">APAGAR</button></div>
+				<div class="tecla"><button onclick="teclado(this.value)" value="0">0</button></div>
+				<div class="tecla"><button id="buscar" onclick="buscar()" value="BUSCAR">BUSCAR</button></div>
+			</div>
+		</footer>
+
+</body>
+
+<script>
+	let codigo = document.getElementById('codigo');
+	let d0 = document.getElementById('valorMapaD0');
+	let d1 = document.getElementById('valorMapaD1');
+	let total = document.getElementById('valorMapaTotal');
+	let descricao = document.getElementById('descricao');
+	let picking = document.getElementById('picking');
+	let listaSaldo = document.getElementById('listaSaldo');
+
+	apagar();
+	function apagar(){
+		codigo.innerHTML = "-";
+		d0.innerHTML = "-";
+		d1.innerHTML = "-";
+		total.innerHTML = "-";
+		descricao.innerHTML = "-";
+		picking.innerHTML = "-";
+		listaSaldo.innerHTML = '<tr><td style="text-align:center" colspan="3">DIGITE O CODIGO</td></tr>';
+
+	}
+
+	function teclado(valor){
+		if(codigo.innerHTML == "-"){
+			codigo.innerHTML = valor;
+		}else{
+			if(codigo.innerHTML.length >= 5){
+				alert("CODIGO DEVE TER ATÉ 5 DIGITOS");
+			}else{
+			codigo.innerHTML += valor;	
+			}
+		}
+	}
+
+	function buscar(){
+		if(codigo.innerHTML == "-") {
+			alert("DIGITE O CODIGO!");
+		}else{
+			const xhttp = new XMLHttpRequest();
+		    xhttp.open("GET", "saldo.xml", false);
+		    xhttp.send();
+		    const xmlSaldo = xhttp.responseXML;
+
+		    // Obtém a lista de produtos
+		    const produtos = xmlSaldo.getElementsByTagName("produto");
+		    const listaProutos = [];
+		    console.log(produtos.length);
+
+		    //for(let i = 0; produtos.length; i++){
+		    //console.log(produtos[0].getElementsByTagName("codigo")[0].innerHTML);
+		    //	const produto = {
+		    //		"codigo": 		produtos[i].getElementsByTagName("codigo")[0].innerHTML,
+		    //		"descricao": 	produtos[i].getElementsByTagName("descricao")[0].innerHTML,
+		    //		"endereco": produtos[i].getElementsByTagName("endereco")[0].innerHTML,
+		    //		"saldo": produtos[i].getElementsByTagName("saldo")[0].innerHTML
+		    //	};
+		    //	listaProutos.push(produto);
+		    //}
+
+
+		    console.log(listaProutos);
+		}
+	}
+</script>
+</html>
