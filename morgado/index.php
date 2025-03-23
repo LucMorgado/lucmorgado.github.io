@@ -58,13 +58,13 @@ if(isset($_POST['saldo'])){
 }
  ?>
 
-	<div class="app">
+	<div id="app">
 		<h2>BUSCAR ZERO</h2>
 		<header>
 			<div class="info">
 				<h1 id="codigo">00000</h1>
-				<h4 id="descricao">Descrição do Produto</h4>
-				<h2 id="picking">Picking do Produto</h2>
+				<h3 id="descricao">Descrição do Produto</h3>
+				<h3 id="picking">Picking do Produto</h3>
 			</div>
 			<div class="mapa">
 				<div class="d0">
@@ -91,6 +91,19 @@ if(isset($_POST['saldo'])){
 					</tr>
 				</thead>
 				<tbody id="listaSaldo">
+					<tr><td colspan="3">DIGITE O CODIGO</td></tr>
+					<tr><td colspan="3">DIGITE O CODIGO</td></tr>
+					<tr><td colspan="3">DIGITE O CODIGO</td></tr>
+					<tr><td colspan="3">DIGITE O CODIGO</td></tr>
+					<tr><td colspan="3">DIGITE O CODIGO</td></tr>
+					<tr><td colspan="3">DIGITE O CODIGO</td></tr>
+					<tr><td colspan="3">DIGITE O CODIGO</td></tr>
+					<tr><td colspan="3">DIGITE O CODIGO</td></tr>
+					<tr><td colspan="3">DIGITE O CODIGO</td></tr>
+					<tr><td colspan="3">DIGITE O CODIGO</td></tr>
+					<tr><td colspan="3">DIGITE O CODIGO</td></tr>
+					<tr><td colspan="3">DIGITE O CODIGO</td></tr>
+					<tr><td colspan="3">DIGITE O CODIGO</td></tr>
 					<tr><td colspan="3">DIGITE O CODIGO</td></tr>
 				</tbody>
 			</table>
@@ -150,7 +163,7 @@ search
 		total.innerHTML = "-";
 		descricao.innerHTML = "-";
 		picking.innerHTML = "-";
-		listaSaldo.innerHTML = '<tr><td style="text-align:center" colspan="3">DIGITE O CODIGO</td></tr>';
+		//listaSaldo.innerHTML = '<tr><td style="text-align:center" colspan="3">DIGITE O CODIGO</td></tr>';
 
 	}
 
@@ -193,6 +206,12 @@ search
 		document.getElementById('atualizar').style = "display:none";
 		document.getElementById('inputSaldo').value;
 	}
+
+
+	let alturaTela = window.screen.height;
+	document.getElementById('teclado').style.height = (alturaTela/3) + "px";
+	document.getElementById('app').style.height 	= alturaTela - (alturaTela/3) + "px";
+
 </script>
 </body>
 </html>

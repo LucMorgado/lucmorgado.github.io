@@ -1,28 +1,26 @@
 *{ padding:0;margin:0;text-decoration:none;}
 
-body { font-family:Poppins }
+body { font-family:Poppins; background-color:#ddd }
 
-h2{text-align: center; padding: 10px; color: #07084a}
-.app{
-	background: #eee;
+h2{text-align: center; padding: 10px; color: #ddd; background-color: #1C202D}
+#app{
+	background-color: #ddd;
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
     justify-content: space-between;
+    overflow-y: scroll;
 }
 
 header{
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    background-color: #ddd;
     padding: 20px;
-    display: flex
-;
-    background: radial-gradient(#141682, #07084a);
-    color: white;
+    display: flex;
+    color: #1C202D;
     flex-direction: row;
     flex-wrap: nowrap;
     justify-content: space-between;
     align-items: center;
-    border-radius: 15px 15px 0 0;
 }
 
 .mapa {align-self: flex-end;}
@@ -49,7 +47,7 @@ table {
 }
 
 th {
-	background: #07084a;
+	background: #1C202D;
 	color: white;
 	padding: 5px 0;
 }
@@ -69,10 +67,8 @@ td, th { text-align:left; padding-left:10px }
     position: fixed;
     bottom: 0;
     left: 0;
-    border-radius: 15px 15px 0 0;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
     padding-top: 10px;
-    background: radial-gradient(#141682, #07084a);
+    background: #1C202D;
 }
 
 .tecladoLinha {
