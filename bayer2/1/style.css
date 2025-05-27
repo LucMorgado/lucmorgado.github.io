@@ -1,0 +1,438 @@
+*{margin: 0;padding: 0;}
+a { text-decoration:none; }
+body {
+  font-family: "Montserrat", sans-serif;
+}
+.msg { text-align:center; }
+.bgDark {
+  background-color: #1C202D;}
+
+.bgGrad {
+  background: linear-gradient(45deg, rgba(200,30,30,0.7) 0%,  rgba(40,60,130,0.7) 100%);
+}
+
+.bgRED{ background-color:red; }
+.bgGREEN{ background-color:GREEN; }
+.bgGREY{ background-color:GREY; }
+
+.center{
+  display: flex;
+  justify-content: center;
+}
+
+.txtcenter{
+  text-align: center;
+}
+.txtCorBr { color:#fff; }
+.txtCorPr { color:#000; }
+.txtCorRed { color:red; }
+.txtCorGrey { color:grey; }
+.txtCorGreen { color:green; }
+
+.logo {
+	display: flex;
+	justify-content: center;
+	padding: 25px 0;
+}
+
+.formularioLogin{
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 100px;
+}
+
+.formCaixa{
+	border: 1px solid #1C202D;
+	background: white;
+    padding: 10px;
+    border-radius: 5px;
+    height: 25px;
+    width: 300px;
+    margin: 20px auto;
+    position: relative;
+    margin-bottom: 30px;
+}
+
+.formCaixa label, .formCheck label{
+	font-size: large;
+    position: absolute;
+    top: -25px;
+    left: 0;
+    text-align: center;
+    width: 320px;
+}
+
+.formCaixa input,.formCaixa select{
+	    width: 100%;
+    height: 100%;
+    border: 0;
+    font-family: "Montserrat";
+    font-weight: 400;
+    font-size: large;
+    text-align: center;
+    text-align-last: center;
+    outline: 0;
+}
+
+button {padding: 10px 20px;
+    border-radius: 5px;
+    outline: 0;
+    border: 0;
+    background: #2A3780;
+    color: white;
+    font-size: large;
+    font-weight: 600;
+	margin-top: 20px}
+
+
+
+	header{
+		display: flex;
+		padding: 10px 20px;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+	}
+
+
+	span, h2, h3, h1 { color:#fff }
+	span { font-size:36px }
+
+	.cover {
+		width: 48px;
+		height: 48px;
+		border-radius: 24px;
+		background-color: #E41B3D;
+		margin-right: 10px;
+	}
+
+	.cover span {
+		padding: 6px;
+		font-size: 36px;
+	}
+
+	.card{
+		display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+	}
+
+  .card h2 {
+    font-size: 1rem;
+  }
+
+	#telas {
+		display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+	}
+
+	.tela{
+	    width: 136px;
+    height: 136px;
+    border-radius: 12px;
+    margin: 20px;
+    display: flex;
+    background: #2A3780;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+	}
+
+	.tela span {margin-bottom: 20px; font-size: 48px}
+
+	.tela h5 { font-size: large; text-align: center;   color: #fff;}
+
+	h1 { text-align:center; margin-bottom:60px }
+
+
+	.menu { position:relative; }
+
+  .menu a { margin:10px }
+
+.onDrop { display: flex !important;}
+
+	#dropmenu{
+		display: none;
+		z-index: 9;
+	position: absolute;
+    right: -20px;
+    top: 30px;
+    width: 156px;
+    flex-direction: column;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+	}
+
+	#dropmenu a {
+	padding: 20px 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+
+	}
+
+.listaUsuarios{
+    width: 100%;
+    display: flex
+;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.usuario {
+  border-bottom: 1px solid #444;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    padding: 10px 20px;
+    align-items: center;
+    width: calc(100% - 40px);
+}
+
+.usuario a {
+  margin-left:   10px;
+}
+
+.btNovo{
+  width: 72px;
+    height: 72px;
+    display: block;
+    background: green;
+    border-radius: 50%;
+    margin: auto;
+}
+.btNovo span{ font-size: 48px;
+    padding: 12px; }
+
+
+    .modal {
+        display: none ;
+          background: #fff;
+    width: 80%;
+    position: fixed;
+    top: 50px;
+    left: 10%;
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    }
+
+
+    .close {width: 36px;
+    height: 36px;
+    display: block;
+    border-radius: 50%;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+  }
+
+  .close span { font-size:  24px;padding: 6px;color:  white }
+
+  .modal h3 {
+    text-align: left;
+    padding:  10px 20px;
+    border-radius:  12px 12px 0 0;
+    font-size:  larger;
+    background: #2A3780;
+    margin-bottom:  48px;
+  }
+
+  .modal label { 
+  color:  #1C202D;
+  width:100%; }
+
+  .modal .formCaixa  {
+    width: 80%;
+  }
+
+  .formCheck {
+    width:  100%;
+    position:   relative  ;
+    border: 0;
+    font-family: "Montserrat";
+    font-weight: 400;
+    font-size: large;
+    text-align: center;
+    text-align-last: center;
+    outline: 0;
+  }
+
+  .formCheck span {color: #1C202D;}
+
+.checks{
+  display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+  .check { 
+      width: 72px;
+    height: 72px;
+    border-radius: 12px;
+    background-color: #aaa;
+    margin: 12px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+   }
+
+   .check input{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    opacity:  0;
+   }
+
+   .check h5 {font-size: x-small;
+    margin-top: 10px;}
+
+
+    .check input:checked ~ .check  {
+      background:   red;
+    }
+
+
+    .btSend a{
+    background: #2A3780;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 20px;
+    }
+
+    .btSend { 
+        margin:   20px;
+        display: flex;
+        justify-content: center;
+     }
+
+
+     .dash{
+      display: flex
+;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+     }
+.atualizacao {
+  font-size: 0.6rem;
+  margin-top: 20px;
+}
+
+     .info1{
+      width: 300px;
+    padding: 20px;
+    /* height: 100px; */
+    background-color: rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    margin:   12px;
+     }
+
+     .info2{
+
+      display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 0;
+    border-bottom: 0.5px  solid rgba(250, 250, 250, 0.5);
+     }
+
+.totalTriagem h5 { font-size:3rem;text-align:center; }
+
+     .info1 h2 { font-size:4rem;text-align:center; }
+
+     .info1 h3 { font-size:1rem;text-align:left; }
+     .info1 h4 { font-size: 0.7rem;text-align:left; }
+
+     .info1 h6 { font-size: 1rem; text-align:center;color:  white; }
+
+#lidas { padding-top:20px; }
+     .lida{
+      padding: 5px 0;
+    border-bottom: 1px solid rgba(250, 250, 250, 0.5);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+     }
+
+     .infoLida{
+      display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: flex-start;
+     }
+
+     .infoLida h4{
+      font-size: 0.7rem;
+     }
+
+
+.headRelatorio{
+  border-bottom: 1px solid #222;
+    display: flex;
+    justify-content: space-around;
+}
+
+.headRelatorio .material-symbols-outlined {
+  color: #000!important;
+}
+
+.headRelatorio a {
+  display: flex;
+    align-items: center;
+}
+
+.card2 {
+  display: flex;
+    flex-direction: row;
+    padding: 10px;
+    border-bottom: 1px solid grey;
+    justify-content: space-between;
+}
+
+.cover2 {
+  border-radius: 12px;
+    width: 24px;
+    height: 24px;
+    margin-right: 5px;
+}
+
+.cover2 .material-symbols-outlined{
+  font-size: 16px;
+  padding: 4px;
+}
+
+.info3 h5{
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+}
+
+.info4 {
+  display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.flexRow{
+  display: flex;
+    flex-direction: row;
+    align-items: center;
+}

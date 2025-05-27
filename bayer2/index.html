@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>BAYER</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="1/style.css">
+	<script src="1/usuarios.js?v=2" type="text/javascript" charset="utf-8" ></script>
+</head>
+<body class="bgDark">
+<div class="container">
+	<div class="logo">
+		<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="60px" viewBox="0 0 38.3 35.1" style="overflow:visible;enable-background:new 0 0 38.3 35.1;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#E41B3D;}
+	.st1{fill:#FFFFFF;}
+</style>
+<defs>
+</defs>
+<g>
+	<path class="st0" d="M37.9,5.4L22.6,33.1c-1.4,2.6-5.4,2.6-6.8,0L0.5,5.4C-0.9,2.9,1,0,3.9,0h11.6v4.8h-4.9c-1,0-1.8,0.8-1.8,1.8
+		v4.1c0,1,0.8,1.8,1.8,1.8h4.9v4.8c0,1,0.8,1.8,1.8,1.8h4.1c1,0,1.8-0.8,1.8-1.8v-4.8H28c1,0,1.8-0.8,1.8-1.8V6.6
+		c0-1-0.8-1.8-1.8-1.8h-4.9V0h11.3C37.4,0,39.2,2.9,37.9,5.4z"/>
+	<path class="st1" d="M29.8,6.6v4.1c0,1-0.8,1.8-1.8,1.8h-4.9v4.8c0,1-0.8,1.8-1.8,1.8h-4.1c-1,0-1.8-0.8-1.8-1.8v-4.8h-4.9
+		c-1,0-1.8-0.8-1.8-1.8V6.6c0-1,0.8-1.8,1.8-1.8h4.9V0h7.7v4.8H28C29,4.8,29.8,5.6,29.8,6.6z"/>
+</g>
+</svg>
+
+	</div>
+	<div class="formularioLogin" accept-charset="utf-8">
+		<div class="formCaixa">
+			<label class="txtCorBr" for="matricula">MATRICULA</label>
+			<input id="matricula" type="number" name="" autofocus>
+		</div>
+		<div class="formCaixa">
+			<label class="txtCorBr" for="senha">SENHA</label>
+			<input id="senha" type="password" name="">
+		</div>
+		<div id="msg" class="msg txtCorBr"></div>
+		<button onclick="auth()" type="">ENTRAR</button>
+		
+	</div>
+</div>
+
+
+<div class="flutuar">
+	<button onclick="resetarDados()" class="bgRED">RESETAR DADOS</button>
+</div>
+
+<script src="1/functions.js" type="text/javascript" charset="utf-8" async defer></script>
+
+<script>
+	
+	function auth(){
+		var matricula 	= document.getElementById('matricula').value;
+		var senha 		= document.getElementById('senha').value;
+		var liberado = false;
+		console.log("Tentar logar com matricula " + matricula + " e senha " + senha);
+
+		var tabelaUsuarios = JSON.parse(localStorage.getItem("tabelaUsuarios")) || usuarios;
+		alert(tabelaUsuarios[0]["matricula"] + " e " + tabelaUsuarios[0]["senha"]);
+
+		for(var i in tabelaUsuarios){
+			if (matricula==tabelaUsuarios[i]["matricula"] && senha==tabelaUsuarios[i]["senha"]) {
+				console.log(tabelaUsuarios[i]["nome"]);
+				localStorage.setItem("usuario", JSON.stringify(tabelaUsuarios[i]));
+				liberado = true;
+
+			}
+		}
+
+		if(liberado){
+				window.location.href = "home.html";
+		}else{
+
+		document.getElementById("msg").innerHTML = "USUARIO OU SENHA INCORRETO";
+		}
+		
+	}
+
+	function resetarDados(){
+		localStorage.clear();
+	}
+
+
+</script>
+
+</body>
+</html>

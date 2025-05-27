@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>BAYER | HOME</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+	<link rel="stylesheet" type="text/css" href="1/style.css">
+</head>
+<body class="bgDark">
+<div class="container">
+	<header class="bgDark">
+		<div class="card">		
+			<div class="cover">
+				<span class="material-symbols-outlined">person</span>
+			</div>
+			<div>
+				<h2 id="nome">Nome</h2>
+				<h3 id="matricula">0140000</h3>
+			</div>
+		</div>
+		<div class="menu">	
+				<a class="txtCorBr" href="home.html">				
+					<span class="material-symbols-outlined">home</span>
+				</a>
+				<a class="txtCorBr" href="index.html"  onclick="sair()">				
+					<span class="material-symbols-outlined">logout</span>
+				</a>
+		</div>
+	</header>
+	<h1 class="bgDark">DASHBOARD</h1>
+	<div class="dash">
+		<div class="info1 bgGrad" onclick="atualizar();">
+			<h2 id="totalMasters">0</h2>
+			<h6>MASTERS LIDAS</h6>	
+			<p class="txtcenter txtCorBr atualizacao">ULTIMA ATUALIZAÇÃO <b id="hora"></b></p>
+		</div>	
+		<div class="info1">
+			<h2 id="totalAlocadas">0</h2>
+			<h6>MASTERS ALOCADAS</h6>
+		</div>	
+		<div class="info1">
+			<h2 id="totalPendencia">0</h2>
+			<h6>MASTERS PENDENTES</h6>
+		</div>
+		<div class="info1">
+			<h2 id="totalDivergente">0</h2>
+			<h6>MASTERS COM DIVERGÊNCIA</h6>
+		</div>			
+		<div class="info1" id="top"></div>
+		<div class="info1">
+			<h3 class="txtCorBr txtcenter">ULTIMAS MASTERS LIDAS</h3>
+			<div id="lidas"></div>
+		</div>
+	</div>
+</div>
+
+<script>	
+var usuario = JSON.parse(localStorage.getItem("usuario")) || false;
+	if(usuario!=false && usuario["dashboard"]){
+		document.getElementById("nome").innerHTML = usuario["nome"];
+		document.getElementById("matricula").innerHTML = usuario["matricula"];
+	}else{
+		window.location.href = "index.html";
+	}
+atualizar();
+function atualizar(){
+	var masters = JSON.parse(localStorage.getItem("tabelaMasters")) || [];
+
+	document.getElementById('totalMasters').innerHTML = masters.length;
+
+	var data = new Date();
+	var minutos = data.getMinutes()<10 ? "0" + data.getMinutes() : data.getMinutes();
+	var horaAtu =  data.getHours() + ":" + minutos;
+	document.getElementById('hora').innerHTML = horaAtu;
+	
+	masters.sort(function (a,b){ //ordenar por data
+		if(a.dataTriagem > b.dataTriagem){
+			return -1;
+		}
+		if(a.dataTriagem < b.dataTriagem){
+			return 1;
+		}
+		return 0;
+	});
+
+	var alocadas = 0, pendente = 0, ultLidas = 0, divergente = 0;
+	var ranking = [], lidas = document.getElementById('lidas');
+	lidas.innerHTML = "";
+	for(var j in masters){
+	//contar alocadas
+		if(masters[j]["alocada"]){
+			alocadas++;
+		}else{
+			pendente++;
+		}
+
+		if(masters[j]["divergencia"] != false){
+			divergente++;
+		}
+		document.getElementById('totalAlocadas').innerHTML = alocadas;
+		document.getElementById('totalPendencia').innerHTML = pendente;
+		document.getElementById('totalDivergente').innerHTML = divergente;
+
+
+		var data = masters[j]["dataTriagem"];
+		if(masters[j]["status"]==0 && ultLidas<10){//status 0 = triado
+			lidas.innerHTML += estruturaLidas(masters[j]["master"], masters[j]["usuarioTriagem"]["nome"], data);
+			ultLidas++;
+		}
+
+
+		//definir ranking
+		if(masters[j]["usuarioTriagem"]!=null){
+			var rank = {
+				"nome": masters[j]["usuarioTriagem"]["nome"],
+				"matricula": masters[j]["usuarioTriagem"]["matricula"],
+				"total": 1
+			}
+			ranking.push(rank);
+		}
+		
+	}
+
+	console.log(ranking);
+	var novo = [];
+	for(var r in ranking){
+		var tem =false;
+		for(var n in novo){
+			if(ranking[r]["nome"] == novo[n]["nome"]){
+				novo[n]["total"]++;
+				tem = true;
+			}
+		}
+		if(!tem){
+			var no = {
+				"nome": ranking[r]["nome"],
+				"matricula": ranking[r]["matricula"],
+				"total": 1
+			}
+			novo.push(no);
+		}
+	}
+	ranking = novo;
+	ranking.sort(function (a,b){ //ordenar por data
+		if(a.total > b.total){
+			return -1;
+		}
+		if(a.total < b.total){
+			return 1;
+		}
+		return 0;
+	});
+	console.log(ranking);
+
+
+
+	var top = document.getElementById('top');
+	top.innerHTML = '<h3 class="txtcenter">TOP 3</h3>';
+	//if(ranking.length<3){
+	//	top.innerHTML = '<h3 class="txtcenter">RANKING INDISPONIVEL</h3>';
+	//}else{
+		for(var i = 0;i<3;i++){
+			if(ranking[i]){
+			 top.innerHTML += estruturaTop(ranking[i]["nome"], ranking[i]["matricula"], ranking[i]["total"]);
+			}
+		}
+	//}
+
+}
+
+function estruturaTop(nome, matricula, total){
+
+return 	'<div class="info2">'
++	'	<div class="card">		'
++	'		<div class="cover">'
++	'			<span class="material-symbols-outlined">person</span>'
++	'		</div>'
++	'		<div>'
++	'			<h3>'+ nome +'</h3>'
++	'			<h4 class="txtCorBr">' + matricula +'</h6>'
++	'		</div>	'
++	'	</div>'
++	'	<div class="totalTriagem">'
++	'		<h5 class="txtCorBr">' + total +'</h5>'
++	'		<h3 class="txtCorBr">MASTERS</h3>'
++	'	</div>'
++	'</div>';
+
+}
+
+
+function estruturaLidas(codigo, nome, hora){
+
+return  '		<div class="lida">'
++ '			<h3 class="txtcenter">' + codigo +'</h3>'
++ '			<div class="infoLida">'
++ '				<h4 class="txtcenter txtCorBr">' + nome + '</h4>'
++ '				<h4 class="txtcenter txtCorBr">' + hora +'</h4>'
++ '			</div>'
++ '		</div>'
++ '	</div>';
+
+}
+
+</script>
+<script src="1/functions.js" type="text/javascript" charset="utf-8" async defer></script>
+</body>
+</html>

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>BAYER | ALOCAR</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+	<link rel="stylesheet" type="text/css" href="1/style.css">
+</head>
+<body>
+<div class="container">
+	<header class="bgDark">
+		<div class="card">		
+			<div class="cover">
+				<span class="material-symbols-outlined">person</span>
+			</div>
+			<div>
+				<h2 id="nome">Nome</h2>
+				<h3 id="matricula">0140000</h3>
+			</div>
+		</div>
+		<div class="menu">	
+			<a class="txtCorBr" href="home.html">				
+				<span class="material-symbols-outlined">home</span>
+			</a>
+			<a class="txtCorBr" href="index.html"  onclick="sair()">				
+				<span class="material-symbols-outlined">logout</span>
+			</a>
+		</div>
+	</header>
+	<h1 class="bgDark">ALOCAR</h1>
+	<div class="telas">
+		<div class="formCaixa">
+			<label class="txtCorPr" >LEIA A MASTER</label>
+			<input type="number" autofocus onchange="localizador()" id="master">
+		</div>
+		<div class="formCaixa">
+			<label class="txtCorPr" >LOCALIZADOR</label>
+			<input type="number" onchange="alocar()" id="localizador">
+		</div>
+
+		<div>
+			<p class="txtcenter" id="msg"></p>
+		</div>
+	</div>
+</div>
+
+
+<script type="text/javascript" charset="utf-8" async defer>
+	
+	var usuario = JSON.parse(localStorage.getItem("usuario")) || false;
+	if(usuario!=false && usuario["triagem"]){
+		document.getElementById("nome").innerHTML = usuario["nome"];
+		document.getElementById("matricula").innerHTML = usuario["matricula"];
+	}else{
+		window.location.href = "index.html";
+	}
+
+	var masters = JSON.parse(localStorage.getItem("tabelaMasters")) || [];
+
+	function localizador(){
+		document.getElementById('localizador').focus();
+	}
+
+	function alocar(){
+		var master = document.getElementById('master');
+		var localizador = document.getElementById('localizador');
+			if(master.value!="" && localizador.value.length==6){
+
+		var filtro = master.value.substr(0,2).toUpperCase();
+			var data = new Date();
+			var mes = data.getMonth() + 1;
+			mes = mes < 10 ? "0" + mes: mes;
+			var tempo = data.getDate() + "/" + mes + "/" + data.getFullYear() + " - " + data.getHours() + ":";
+			tempo += data.getMinutes() < 10 ? "0" + data.getMinutes() : data.getMinutes();
+
+			//checar se foi triada
+			var triada = false;
+			var indexMaster;
+			for(var m in masters){
+				if(master.value==masters[m]["master"]){
+					console.log("master triada");
+					triada = true;
+					indexMaster = m;
+				}
+			}
+			
+
+			var mlida;
+			if(triada){
+				mlida = {
+				"master": masters[indexMaster]["master"],
+				"usuarioTriagem": masters[indexMaster]["usuarioTriagem"],
+				"dataTriagem": masters[indexMaster]["dataTriagem"],
+				"alocada": true,
+				"usuarioAlocacao": usuario,
+				"dataAlocacao": tempo,
+				"localizador": localizador.value,
+				"divergencia": masters[indexMaster]["divergencia"],
+				"status": 0
+				}
+
+				masters[indexMaster] = mlida;
+			}else{
+				mlida = {
+				"master": master.value,
+				"usuarioTriagem": null,
+				"dataTriagem": null,
+				"alocada": true,
+				"usuarioAlocacao": usuario,
+				"dataAlocacao": tempo,
+				"localizador": localizador.value,
+				"divergencia": "Master não Triada",
+				"status": 1
+				}
+
+				masters.push(mlida);
+			}
+			
+			
+			localStorage.setItem("tabelaMasters", JSON.stringify(masters));
+			document.getElementById('msg').innerHTML = "ÚLTIMA MASTER LIDA " + master.value.toUpperCase();
+
+		master.value = "";
+		localizador.value = "";
+		master.focus();
+			}else{
+				document.getElementById('msg').innerHTML = "MASTER OU LOCALIZADOR INVÁLIDO";
+			}
+
+
+
+		}
+
+
+</script>
+<script src="1/functions.js" type="text/javascript" charset="utf-8" async defer></script>
+
+</body>
+</html>
