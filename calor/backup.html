@@ -1,0 +1,34 @@
+			txt = '<table>';
+				for(var mod = 0; mod <=90;mod++){
+
+		txt+=	`<tr>
+					<th>` + mod +`</th>`;
+				for(co = 10; co <=42;co++){
+					if((co>37 && co < 40) || co == 41){ continue;}
+					if(mod == 0){ 
+					txt+= `<td>V` + co +`</td>`; 
+				}else{
+					const linha = tabelaDados.find(linha => (linha.corredor == "V"+co && linha.modulo == mod && linha.nivel == nivelAtual));
+
+					cor = "corCZ";
+					if(linha){	
+						ocupacao = (linha.largura*1000);
+						if(linha.altura < alturaSimulada){
+							ocupacao *= linha.altura;
+						}else{
+							ocupacao *= alturaSimulada;
+						}
+						ocupacao = ((linha.cubProd/ocupacao)*100).toFixed(0);
+						if(ocupacao < 30){ cor = "corVD";}
+						if(ocupacao < 59 && ocupacao >= 30){ cor = "corAM";}
+						if(ocupacao >= 60){ cor = "corVM";}
+
+						txt+= `<td class="` + cor +`">`+ocupacao+`</td>`; 
+					}else{
+						txt+= `<td alt="teste" class="`+ cor +`">0</td>`; 
+					}
+				}
+				}
+		txt+=		`</tr>`;
+				}
+		txt+= `</table>`;

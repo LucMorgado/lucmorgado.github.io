@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<title>Mapa de Calor</title>
+</head>
+<body>
+	<div id="carregando"><span class="loading"> </span></div>
+	<div class="conteudo">
+		<header>
+			<div class="box card">
+					<h3>Total de Localizadores</h3>
+					<div class="centroVertical">
+						<h2 id="totalLoc">...</h2>
+						<p id="totalLocPer"></p>
+					</div>			
+			</div>
+			<div class="box card">
+				<h3>Ganho</h3>
+					<div class="centroVertical">
+						<h2 id="totalGanho">...</h2>
+						<p id="totalGanhoPer"></p>
+					</div>
+			</div>
+			<div class="box card">
+				<h3>Localizadores Usados</h3>
+					<div class="centroVertical">
+						<h2 id="totalUsado">...</h2>
+						<p id="totalUsadoPer">...</p>
+					</div>
+			</div>
+			<div class="box card" style="width: 420px;">
+				<h3>Localizadores X Setores</h3>
+					<div class="centroVertical" id="chart">
+					</div>
+			</div>
+		</header>
+		<div class="box mapa">
+			<div class="boxLateral">
+				<div onclick="atualizar(this)" class="btNivel btLateral">10</div>
+				<div onclick="atualizar(this)" class="btNivel btLateral">9</div>
+				<div onclick="atualizar(this)" class="btNivel btLateral">8</div>
+				<div onclick="atualizar(this)" class="btNivel btLateral">7</div>
+				<div onclick="atualizar(this)" class="btNivel btLateral">6</div>
+				<div onclick="atualizar(this)" class="btNivel btLateral">5</div>
+				<div onclick="atualizar(this)" style = "background: #1e2355;color: #eee;" class="btNivel btLateral">4</div>
+				<div onclick="atualizar(this)" class="btNivel btLateral">3</div>
+				<div onclick="atualizar(this)" class="btNivel btLateral">2</div>
+				<div onclick="atualizar(this)" class="btNivel btLateral">1</div>
+			</div>
+			<div id="mapa"></div>
+			<div class="boxLateral">
+				<div onclick="CalcularLocalizadores(this, 2000)" class="btLateral btAltura">2,0m</div>
+				<div onclick="CalcularLocalizadores(this, 1900)" class="btLateral btAltura">1,9m</div>
+				<div onclick="CalcularLocalizadores(this, 1800)" class="btLateral btAltura">1,8m</div>
+				<div onclick="CalcularLocalizadores(this, 1700)" class="btLateral btAltura">1,7m</div>
+				<div onclick="CalcularLocalizadores(this, 1600)" class="btLateral btAltura">1,6m</div>
+				<div onclick="CalcularLocalizadores(this, 1500)" class="btLateral btAltura">1,5m</div>
+				<div onclick="CalcularLocalizadores(this, 1400)" class="btLateral btAltura">1,4m</div>
+				<div onclick="CalcularLocalizadores(this, 1300)" class="btLateral btAltura">1,3m</div>
+				<div onclick="CalcularLocalizadores(this, 1200)" class="btLateral btAltura">1,2m</div>
+				<div onclick="CalcularLocalizadores(this, 1100)" class="btLateral btAltura">1,1m</div>
+				<div onclick="CalcularLocalizadores(this, 1000)" class="btLateral btAltura">1,0m</div>
+			</div>
+		</div>
+		
+	</div>
+	<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<script src="tabelinha.js" type="text/javascript" charset="utf-8"></script>
+	<script>
+		const alturaMaxima = 10000;
+		nivelMax = 10;
+		nivelAtual = 4;
+		totalAtivo = 0;
+		totalOriginal = 0;
+		alturaSimulada = 2000;
+		totalocupacao = 0;
+		totalCubagemLoc = 0;
+		totalCubagemProd = 0;
+		const tabelaDados = [];
+		carregarDados();
+		function carregarDados(){
+
+			tabelaDados.splice(0, tabelaDados.length);
+			totalocupacao = 0;
+		totalCubagemLoc = 0;
+		totalCubagemProd = 0;
+			dados = tabelinha;
+
+			linhas = dados.split("\n");
+			for(var linha in linhas){
+				infoDaLinha = linhas[linha].split(",");
+				if(infoDaLinha[7] == "Ativo" && infoDaLinha[0].length == 3){
+					totalOriginal++;
+					totalCubagemProd += parseInt(infoDaLinha[8]);
+					totalCubagemLoc += parseInt(infoDaLinha[3]) * 1200 * 1000;
+				}
+				if(infoDaLinha[0].length != 3){continue;}
+				l = {
+					"corredor": 	infoDaLinha[0],
+					"modulo": 		infoDaLinha[1],
+					"box": 			infoDaLinha[2],
+					"altura": 		infoDaLinha[3],
+					"largura": 		infoDaLinha[4],
+					"nivel": 		infoDaLinha[5],
+					"setor": 		infoDaLinha[6],
+					"situacao": 	infoDaLinha[7],
+					"cubProd": 	infoDaLinha[8]
+					}
+				tabelaDados.push(l);
+			}
+			totalAtivo = totalOriginal;
+			totalocupacao = (parseInt(totalCubagemProd) / parseInt(totalCubagemLoc))*100;
+
+			desenharTabela();
+
+		}
+
+
+		function desenharTabela(){
+			document.getElementById('carregando').style = "display:flex";
+			tabela = document.getElementById('mapa');
+			card = "";
+			txt = '<table><tr>';
+				for(co = 9; co <=42;co++){
+					if((co>36 && co < 39) || co == 41){ continue;}					
+					if (co==9) {
+						txt+=	`<th><span></span></th>`;
+					}else if(co==39){
+						txt+=	`<th colspan="61">Paredões</th></tr>`;continue;
+					}else{
+						txt+=	`<th>V` + co +`</th>`;
+					}
+				for(var mod = 1; mod <=90;mod++){
+						const linha = tabelaDados.find(linha => (linha.corredor == "V"+co && linha.modulo == mod && linha.nivel == nivelAtual));
+						
+							box = "";
+							if(nivelAtual < 10){ box = "0"; }
+						if(linha){
+
+							card = `
+								<div class="cardIndividual">
+									<h6>` + 'V'+co+'-'+ mod + "-" + box + "" + nivelAtual + `0</h6>
+									<h6>`+ linha.situacao +`</h6>
+								</div>
+
+						`;
+							ocupacao = (linha.largura*1000);
+							if(linha.altura < alturaSimulada){
+								ocupacao *= linha.altura;
+							}else{
+								ocupacao *= alturaSimulada;
+							}
+							ocupacao = ((linha.cubProd/ocupacao)*100).toFixed(0);
+
+							cor = "corEscala" + parseInt(ocupacao/ 10);
+							if(ocupacao<10){ cor = "corEscala1";}
+							if(ocupacao>100){ cor =  "corEscala10";}
+							
+						}else{
+					cor = "corEscala0";
+						ocupacao = -1;
+						card = `
+								<div class="cardIndividual">
+									<h6>` + 'V'+co+'-'+ mod + "-" + box + "" + nivelAtual + `0</h6>
+								</div>
+						`;
+						}
+
+						if(co <= 36 && mod <=60){	//Não
+							if(co==9){	
+								ocupacao = mod;
+								txt+= `<th><span>` + ocupacao +`</span>`+ card + `</th>`; 
+							}else{
+								txt+= `<td class="td `+cor+`"><span>` + ocupacao +`</span>`+ card + `</td>`;
+							}
+						}else if((co == 40 || co == 42) && mod >=57){
+							if (mod == 63 || mod == 70 || mod == 77 || mod == 84){
+								txt+= `<td colspan="3"></td>`;
+							}else{
+								txt+= `<td class="td `+cor+`"><span>` + ocupacao +`</span>`+ card + `</td>`;
+							}
+					}
+				}//fim do for Modulos
+		txt+=		`</tr>`;
+}//fim do for corredor
+		txt+= `</table>`;
+
+		tabela.innerHTML = txt;
+
+		const locUsados = tabelaDados.filter(linha => (linha.cubProd > 0));
+
+		//alterar total de localizadores
+		document.getElementById('totalLoc').innerHTML = totalAtivo;
+		document.getElementById('totalUsado').innerHTML = ((parseInt(locUsados.length)/totalAtivo)*100).toFixed(1) + "%";
+		document.getElementById('totalUsadoPer').innerHTML = "Ocupação  de " + totalocupacao.toFixed(2) + "%";
+
+		document.getElementById('carregando').style = "display:none";
+}//fim da funcao
+
+		function atualizar(vl){
+			nivelAtual = vl.innerHTML;
+			elementos = document.querySelectorAll('.btNivel');
+			elementos.forEach(elemento => {
+  			elemento.style = "background: #eee;color: #1e2355;";
+			});
+			vl.style = "background: #1e2355;color: #eee;";
+			desenharTabela();
+
+		}
+     
+ 
+		async function CalcularLocalizadores(vl, alt){
+
+			document.getElementById('carregando').style = "display:flex";
+
+			await esperar(100);   
+
+
+			alturaSimulada = alt;
+
+			if(alt == 2000){
+				totalAtivo = totalOriginal;
+				carregarDados();
+				desenharTabela();
+				return;
+			}
+
+			//mudar ganho e total de localizadores
+			//filtrar endereços maiores que o selecionado
+			const filtroMais = tabelaDados.filter(linha => (linha.altura > alt && linha.situacao == "Ativo"));
+			const filtroMenos = tabelaDados.filter(linha => (linha.altura <= alt && linha.situacao == "Ativo"));
+
+			//somar alturas dos maiores
+			const somaAlturaMais = filtroMais.reduce((acumulador, objeto) => acumulador + parseInt(objeto.altura), 0);
+			ganho = somaAlturaMais / alt;
+
+			console.log(parseInt(ganho));
+			totalAtivo = parseInt(filtroMenos.length + ganho);
+
+			perGanho = (ganho/totalOriginal)*100;
+
+			for(var corr = 10; corr <=42; corr++){
+				if((corr > 36 && corr <= 39) || corr ==41 ){ continue;}
+					let fim = 60;
+				if(corr == 40 || corr == 42){ fim = 90;}
+				for(var modd = 1; modd <= fim; modd++){
+
+					filtro = tabelaDados.filter((element) => element.corredor == "V" + corr && element.modulo == modd); //filtra o modulo
+					somaAltura = filtro.filter((element) => parseInt(element.box)%2 != 0); // filtra lado impar do modulo
+					menorQue = somaAltura.filter((element) => element.altura < alturaSimulada); //filtra os menores que a selecao
+					menorQueQtd = menorQue.length; //qtd de enderecos não alterados
+
+
+					menorQue = menorQue.reduce((acumulador, objeto) => acumulador + parseInt(objeto.altura), 0);
+					somaAltura = somaAltura.reduce((acumulador, objeto) => acumulador + parseInt(objeto.altura), 0);
+
+					
+					if(somaAltura < alturaMaxima && somaAltura != 0){ somaAltura = alturaMaxima;}
+					alturaUtil = somaAltura - menorQue;
+					novoNivel = alturaUtil / alturaSimulada;
+					nNiveis = parseInt(novoNivel + menorQueQtd);
+					if(nNiveis > menorQueQtd){
+					for(var niv = 1; niv <=nNiveis; niv++){	
+						if((corr == 40 || corr == 42) && niv<4){ continue;}
+						objI = tabelaDados.findIndex((element) => element.corredor == "V" + corr && element.modulo == modd && element.box == niv + "" + 1); //filtra o modulo
+						objP = tabelaDados.findIndex((element) => element.corredor == "V" + corr && element.modulo == modd && element.box == niv + "" + 2); //filtra o modulo
+						if(objI != -1){
+							if(tabelaDados[objI].altura > alturaSimulada){
+								 tabelaDados[objI].altura = alturaSimulada;
+							}
+						}else{
+							//criar
+							oI = {
+								"corredor": 	"V" + corr,
+								"modulo": 		modd,
+								"box": 			niv + "" + 1,
+								"altura": 		alturaSimulada,
+								"largura": 		1200,
+								"nivel": 		niv,
+								"setor": 		"",
+								"situacao": 	"Ativo",
+								"cubProd": 	0
+								}
+							tabelaDados.push(oI);
+
+							}
+						}
+						if(objP != -1){
+							if(tabelaDados[objP].altura > alturaSimulada){
+								 tabelaDados[objP].altura = alturaSimulada;
+							}
+						}else{
+							//criar
+							oP = {
+								"corredor": 	"V" + corr,
+								"modulo": 		modd,
+								"box": 			niv + "" + 2,
+								"altura": 		alturaSimulada,
+								"largura": 		1200,
+								"nivel": 		niv,
+								"setor": 		"",
+								"situacao": 	"Ativo",
+								"cubProd": 	0
+								}
+							tabelaDados.push(oP);
+						}
+					
+					}
+				}
+			}
+
+			tclA = tabelaDados.reduce((acumulador, objeto) => acumulador + parseInt(objeto.altura), 0);
+			totalCubagemLoc = tclA * 1200 * 1000;
+			totalocupacao = (parseInt(totalCubagemProd) / parseInt(totalCubagemLoc))*100;
+
+			document.getElementById('totalUsadoPer').innerHTML = "Ocupação  de " + totalocupacao.toFixed(2) + "%";
+			document.getElementById('totalGanho').innerHTML = parseInt(ganho);
+			document.getElementById('totalLocPer').innerHTML = "+" + perGanho.toFixed(2) + "%";
+			document.getElementById('totalLoc').innerHTML = totalAtivo;
+
+
+
+			elementos = document.querySelectorAll('.btAltura');
+			elementos.forEach(elemento => {
+  			elemento.style = "background: #eee;color: #1e2355;";
+			});
+			vl.style = "background: #1e2355;color: #eee;";
+			desenharTabela();
+		}
+
+		function esperar(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+		grafico();
+		function grafico(){
+		fralda = tabelaDados.filter((element) => element.setor == "FRALDA");
+		bgMed = tabelaDados.filter((element) => element.setor == "BG MEDIC");
+		agMed = tabelaDados.filter((element) => element.setor == "AG MEDIC");
+		bgPerf = tabelaDados.filter((element) => element.setor == "BG PERF");
+		agPerf = tabelaDados.filter((element) => element.setor == "AG PERF");
+		minalba = tabelaDados.filter((element) => element.setor == "MINALBA");
+
+
+			var options = {
+          series: [
+          {
+            name: 'Endereços',
+            data: [
+              {
+                x: 'Fralda',
+                y: fralda.length
+               
+              },
+              {
+                x: 'AG Medic',
+                y: agMed.length
+              },
+              {
+                x: 'AG Perf',
+                y: agPerf.length
+         
+              },
+              {
+                x: 'BG Medic',
+                y: bgMed.length
+              },
+              {
+                x: 'BG Perf',
+                y: bgPerf.length
+              },
+              {
+                x: 'Minalba',
+                y: minalba.length
+              }
+            ]
+          }
+        ],
+          chart: {
+          height: 150,
+          type: 'bar'
+        },
+        plotOptions: {
+          bar: {
+            columnWidth: '60%'
+          }
+        },
+        colors: ['#1e2355'],
+        dataLabels: {
+          enabled: false
+        },
+        legend: {
+      		show: false}
+        };
+
+        var chart = new ApexCharts(document.querySelector("#chart"), options);
+        chart.render();
+		}
+
+	</script>
+</body>
+</html>
